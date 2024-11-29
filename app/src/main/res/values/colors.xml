@@ -15,4 +15,6 @@
     <color name="Transparent">#00000000</color>
     <color name="lightBlueSecColor">#1E53B8</color>
     <color name="switchBlue">#173D87</color>
+    <color name="lightBlue">#286CED</color>
+
 </resources>

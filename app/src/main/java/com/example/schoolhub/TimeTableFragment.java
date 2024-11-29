@@ -1,15 +1,15 @@
 package com.example.schoolhub;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -39,30 +39,28 @@ public class TimeTableFragment extends Fragment {
 
         // Attach TabLayout with ViewPager2
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            TextView customTab = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.custom_tab, null);
             switch (position) {
                 case 0:
-                    tab.setText("ראשון");
+                    customTab.setText("ראשון");
                     break;
                 case 1:
-                    tab.setText("שני");
+                    customTab.setText("שני");
                     break;
                 case 2:
-                    tab.setText("שלישי");
+                    customTab.setText("שלישי");
                     break;
                 case 3:
-                    tab.setText("רביעי");
+                    customTab.setText("רביעי");
                     break;
                 case 4:
-                    tab.setText("חמישי");
+                    customTab.setText("חמישי");
                     break;
             }
+            tab.setCustomView(customTab);
         }).attach();
 
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
 }
