@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_timetable"
+        android:icon="@drawable/time_table_icon"
+        android:title="Time Table"/>
+    <item
+        android:id="@+id/navigation_tasks"
+        android:icon="@drawable/tasks_botton"
+        android:title="Tacks"/>
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/home_bottom"
+        android:title="Home"/>
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/calc_botton"
+        android:title="Calc"/>
+    <item
+        android:id="@+id/navigation_menu"
+        android:icon="@drawable/menu_icon"
+        android:title="Menu"/>
+</menu>

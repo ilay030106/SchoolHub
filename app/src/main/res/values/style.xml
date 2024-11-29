@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Circular">
+        <item name="cornerSize">30%</item>
+    </style>
+
+    <style name="RoundedSquare">
+        <item name="cornerSize">10%</item>
+    </style>
+
+    <style name="CornerCut">
+        <item name="cornerSize">15dp</item>
+        <item name="cornerFamily">cut</item>
+    </style>
+
+    <style name="DiamondCut">
+        <item name="cornerSize">75dp</item>
+        <item name="cornerFamily">cut</item>
+    </style>
+
+    <style name="SpecificCornerCut">
+        <item name="cornerSizeTopRight">75dp</item>
+        <item name="cornerFamilyTopRight">cut</item>
+        <item name="cornerSizeBottomLeft">75dp</item>
+        <item name="cornerFamilyBottomLeft">cut</item>
+    </style>
+
+    <style name="CornerRounded">
+        <item name="cornerSizeTopRight">30dp</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerSizeBottomLeft">30dp</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
+    </style>
+    <style name="EditTextRoundedCorners">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">45dp</item> <!-- Adjust the corner radius as needed -->
+    </style>
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/switchBlue</item>
+    </style>
+    <style name="textBNV">
+        <item name="android:color">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+
+
+</resources>
