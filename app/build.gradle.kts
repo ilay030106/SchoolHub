@@ -41,7 +41,7 @@ dependencies {
     implementation(libs.firebase.database) // Realtime Database
     implementation(libs.firebase.analytics)
     implementation(platform(libs.firebase.bom))
-
+    implementation(libs.firebase.ui.auth)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
