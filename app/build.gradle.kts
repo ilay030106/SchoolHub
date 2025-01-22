@@ -39,6 +39,9 @@ dependencies {
     implementation(libs.firebase.storage) // Firebase Storage
     implementation(libs.firebase.auth)   // Firebase Authentication
     implementation(libs.firebase.database)// Realtime Database
+    implementation(libs.firebase.database)// Realtime Database
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.firestore)
     implementation(libs.firebase.ui.storage)
     implementation(libs.firebase.ui.database)
     implementation(libs.firebase.analytics)
@@ -51,7 +54,10 @@ dependencies {
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.firebase.storage)
+    implementation(libs.annotation)
+    implementation(libs.xcom.google.android.material.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
 }
