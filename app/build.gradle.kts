@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.schoolhub"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.schoolhub"
@@ -56,6 +56,8 @@ dependencies {
     implementation(libs.firebase.storage)
     implementation(libs.annotation)
     implementation(libs.xcom.google.android.material.material)
+    implementation(libs.blurview)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

@@ -1,5 +1,6 @@
 [versions]
 agp = "8.7.3"
+blurview = "1.6.6"
 firebaseAuth = "23.1.0"
 firebaseBom = "33.8.0"
 firebaseDatabase = "21.0.0"
@@ -22,6 +23,7 @@ xcomMaterial = "1.9.0"
 
 
 [libraries]
+blurview = { module = "com.eightbitlab:blurview", version.ref = "blurview" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebaseAuth" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
