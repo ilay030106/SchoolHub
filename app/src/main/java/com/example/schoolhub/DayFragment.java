@@ -24,7 +24,6 @@ public class DayFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_day, container, false);
         TextView textView = view.findViewById(R.id.day_title);
         textView.setText(dayName);
-
         return view;
     }
 }
