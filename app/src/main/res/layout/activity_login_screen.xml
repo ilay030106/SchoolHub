@@ -8,44 +8,46 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="16dp"
-    tools:context=".Login.LoginScreen">
+    tools:context=".Login.LoginScreen"
+    android:background="@drawable/app_bg">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="@font/poppins_bold"
+        android:gravity="center"
+        android:paddingBottom="270dp"
+        android:text="School Hub"
+        android:textColor="#000000"
+        android:textSize="36sp" />
+
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height='match_parent'
-        android:layout_marginTop="45dp"
-        android:layout_marginBottom="45dp"
-        app:cardCornerRadius="30dp"
-        app:background="android:color/transparent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="15dp">
+
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_gray"
             android:orientation="vertical"
-            android:background="#80FFFFFF"
-            app:cardCornerRadius="30dp">
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:gravity="center"
-                android:text="School Hub"
-                android:textColor="@color/black"
-                android:textSize="36sp"
-                android:fontFamily="@font/poppins_bold" />
-
+            android:padding="12dp">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/EmailLogin"
+                android:id="@+id/EmailSignIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:padding="12dp"
-                android:text="Sign in with Email"
+                android:text="Sign in"
                 android:textColor="@color/white"
                 app:cornerRadius="8dp"
                 app:icon="@drawable/email_icon"
@@ -53,15 +55,15 @@
                 app:iconPadding="8dp" />
 
             <com.google.android.gms.common.SignInButton
-                android:id="@+id/googleSignInButton"
+                android:id="@+id/googleSignIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="16dp"
-                android:layout_gravity="center" />
-
-
+                android:layout_marginRight="5dp"
+                android:paddingBottom="15dp" />
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>
