@@ -38,7 +38,9 @@ android {
 dependencies {
     implementation(libs.firebase.storage) // Firebase Storage
     implementation(libs.firebase.auth)   // Firebase Authentication
-    implementation(libs.firebase.database) // Realtime Database
+    implementation(libs.firebase.database)// Realtime Database
+    implementation(libs.firebase.ui.storage)
+    implementation(libs.firebase.ui.database)
     implementation(libs.firebase.analytics)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.ui.auth)
