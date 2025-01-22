@@ -3,7 +3,6 @@ package com.example.schoolhub.Login;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,11 +20,13 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class LoginScreen extends AppCompatActivity {
 
-    TextInputLayout emailLayout;
-    TextInputEditText email;
+    TextInputLayout emailLayout, passwordLayout;
+    TextInputEditText emailInput, passwordInput;
+
     MaterialButton EmailSignIn;
 
     private GoogleSignInClient googleSignInClient;
+    private static final int RC_SIGN_IN = 100; // אתה בוחר את המספר
 
 
 
@@ -52,9 +53,12 @@ public class LoginScreen extends AppCompatActivity {
         findViewById(R.id.googleSignIn).setOnClickListener(v -> signInWithGoogle());
         EmailSignIn.setOnClickListener(view -> {
             Dialog dialog = new Dialog(this);
+            dialog.setCancelable(true);
             dialog.setContentView(R.layout.email_sign_in_dialog);
             emailLayout = dialog.findViewById(R.id.emailLayout);
-            email = dialog.findViewById(R.id.email);
+            emailInput = dialog.findViewById(R.id.emailInput);
+            passwordLayout = dialog.findViewById(R.id.passwordLayout);
+            passwordInput = dialog.findViewById(R.id.passwordInput);
             dialog.show();
         });
 
@@ -63,7 +67,7 @@ public class LoginScreen extends AppCompatActivity {
 
     private void signInWithGoogle() {
         Intent signInIntent = googleSignInClient.getSignInIntent();
-        //startActivityForResult(signInIntent, RC_SIGN_IN);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
 }
