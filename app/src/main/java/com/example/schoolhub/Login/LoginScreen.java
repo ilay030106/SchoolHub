@@ -52,7 +52,7 @@ public class LoginScreen extends AppCompatActivity {
         // כפתור Google Sign-In
         findViewById(R.id.googleSignIn).setOnClickListener(v -> signInWithGoogle());
         EmailSignIn.setOnClickListener(view -> {
-            Dialog dialog = new Dialog(this);
+            Dialog dialog = new Dialog(this,R.style.CustomDialogTheme);
             dialog.setCancelable(true);
             dialog.setContentView(R.layout.email_sign_in_dialog);
             emailLayout = dialog.findViewById(R.id.emailLayout);
