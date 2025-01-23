@@ -31,6 +31,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,11 +45,13 @@ public class LoginScreen extends AppCompatActivity {
     TextInputLayout emailLayout, passwordLayout;
     TextInputEditText emailInput, passwordInput;
     MaterialButton EmailSignIn;
+    ProgressDialog progressDialog;
 
     private GoogleSignInClient googleSignInClient;
     private static final int RC_SIGN_IN = 100;
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private Dialog activeDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,15 +87,15 @@ public class LoginScreen extends AppCompatActivity {
     }
 
     private void openEmailSignInDialog(SharedPreferences preferences) {
-        Dialog dialog = new Dialog(this, R.style.CustomDialogTheme);
-        dialog.setCancelable(true);
-        dialog.setContentView(R.layout.email_sign_in_dialog);
+        activeDialog = new Dialog(this, R.style.CustomDialogTheme);
+        activeDialog.setCancelable(true);
+        activeDialog.setContentView(R.layout.email_sign_in_dialog);
 
-        emailLayout = dialog.findViewById(R.id.emailLayout);
-        emailInput = dialog.findViewById(R.id.emailInput);
-        passwordLayout = dialog.findViewById(R.id.passwordLayout);
-        passwordInput = dialog.findViewById(R.id.passwordInput);
-        MaterialSwitch rememberMeSwitch = dialog.findViewById(R.id.rememberMeSwitch);
+        emailLayout = activeDialog.findViewById(R.id.emailLayout);
+        emailInput = activeDialog.findViewById(R.id.emailInput);
+        passwordLayout = activeDialog.findViewById(R.id.passwordLayout);
+        passwordInput = activeDialog.findViewById(R.id.passwordInput);
+        MaterialSwitch rememberMeSwitch = activeDialog.findViewById(R.id.rememberMeSwitch);
 
         rememberMeSwitch.setOnCheckedChangeListener((switchView, isChecked) -> {
             SharedPreferences.Editor editor = preferences.edit();
@@ -105,40 +108,40 @@ public class LoginScreen extends AppCompatActivity {
             editor.apply();
         });
 
-        MaterialButton signIn = dialog.findViewById(R.id.signIn);
+        MaterialButton signIn = activeDialog.findViewById(R.id.signIn);
         signIn.setOnClickListener(v -> {
             if (validateInputs()) {
                 String email = Objects.requireNonNull(emailInput.getText()).toString();
                 proceedToMainScreen(email);
-                dialog.dismiss();
+                activeDialog.dismiss();
             }
         });
 
-        TextView signUp = dialog.findViewById(R.id.signUp);
+        TextView signUp = activeDialog.findViewById(R.id.signUp);
         signUp.setOnClickListener(view -> {
-            dialog.dismiss();
+            activeDialog.dismiss();
             openSignUpDialog();
         });
 
-        dialog.show();
+        activeDialog.show();
     }
 
     private void openSignUpDialog() {
-        Dialog dialog = new Dialog(this, R.style.CustomDialogTheme);
-        dialog.setCancelable(true);
-        dialog.setContentView(R.layout.sign_up_dialog);
+        activeDialog = new Dialog(this, R.style.CustomDialogTheme);
+        activeDialog.setCancelable(true);
+        activeDialog.setContentView(R.layout.sign_up_dialog);
 
-        TextInputLayout nameLayout = dialog.findViewById(R.id.NameLayout);
-        TextInputLayout emailLayout = dialog.findViewById(R.id.signUpemailLayout);
-        TextInputLayout passwordLayout = dialog.findViewById(R.id.signUppasswordLayout);
-        TextInputLayout confirmPasswordLayout = dialog.findViewById(R.id.confirm_passwordLayout);
+        TextInputLayout nameLayout = activeDialog.findViewById(R.id.NameLayout);
+        TextInputLayout emailLayout = activeDialog.findViewById(R.id.signUpemailLayout);
+        TextInputLayout passwordLayout = activeDialog.findViewById(R.id.signUppasswordLayout);
+        TextInputLayout confirmPasswordLayout = activeDialog.findViewById(R.id.confirm_passwordLayout);
 
-        TextInputEditText nameInput = dialog.findViewById(R.id.NameInput);
-        TextInputEditText emailInput = dialog.findViewById(R.id.signUpemailInput);
-        TextInputEditText passwordInput = dialog.findViewById(R.id.signUp_passwordInput);
-        TextInputEditText confirmPasswordInput = dialog.findViewById(R.id.confirm_passwordInput);
+        TextInputEditText nameInput = activeDialog.findViewById(R.id.NameInput);
+        TextInputEditText emailInput = activeDialog.findViewById(R.id.signUpemailInput);
+        TextInputEditText passwordInput = activeDialog.findViewById(R.id.signUp_passwordInput);
+        TextInputEditText confirmPasswordInput = activeDialog.findViewById(R.id.confirm_passwordInput);
 
-        MaterialButton signUpBtn = dialog.findViewById(R.id.signUpBtn);
+        MaterialButton signUpBtn = activeDialog.findViewById(R.id.signUpBtn);
         signUpBtn.setOnClickListener(v -> {
             String name = Objects.requireNonNull(nameInput.getText()).toString();
             String email = Objects.requireNonNull(emailInput.getText()).toString();
@@ -146,11 +149,11 @@ public class LoginScreen extends AppCompatActivity {
             String confirmPassword = Objects.requireNonNull(confirmPasswordInput.getText()).toString();
 
             if (validateSignUpInputs(name, email, password, confirmPassword, nameLayout, emailLayout, passwordLayout, confirmPasswordLayout)) {
-                createNewUser(email, password, dialog);
+                createNewUser(email, password, name, activeDialog);
             }
         });
 
-        dialog.show();
+        activeDialog.show();
     }
 
     private boolean validateSignUpInputs(String name, String email, String password, String confirmPassword,
@@ -187,21 +190,55 @@ public class LoginScreen extends AppCompatActivity {
         return true;
     }
 
-    private void createNewUser(String email, String password, Dialog dialog) {
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Creating account...");
-        progressDialog.show();
-
+    private void createNewUser(String email, String password, String name, Dialog dialog) {
+        showProgressDialog("Creating account...");
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
-                    progressDialog.dismiss();
+                    dismissProgressDialog();
                     if (task.isSuccessful()) {
-                        sendVerificationEmail();
-                        dialog.dismiss();
-                        proceedToMainScreen(email);
+                        FirebaseUser user = mAuth.getCurrentUser();
+
+                        if (user != null) {
+                            String userId = user.getUid();
+                            saveUserDetailsToFirestore(userId, email, name, dialog);
+                        }
                     } else {
                         Toast.makeText(this, "Sign-Up failed: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                });
+    }
+
+    private void showProgressDialog(String message) {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage(message);
+            progressDialog.setCancelable(false);
+        }
+        progressDialog.show();
+    }
+
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
+    }
+
+    private void saveUserDetailsToFirestore(String userId, String email, String name, Dialog dialog) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Map<String, Object> userDetails = new HashMap<>();
+        userDetails.put("email", email);
+        userDetails.put("firstName", name.split(" ")[0]);
+
+        db.collection("users").document(userId)
+                .set(userDetails)
+                .addOnSuccessListener(aVoid -> {
+                    dialog.dismiss();
+                    proceedToMainScreen(email);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to save user details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -288,6 +325,7 @@ public class LoginScreen extends AppCompatActivity {
         }
     }
 
+
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
@@ -300,4 +338,15 @@ public class LoginScreen extends AppCompatActivity {
                     }
                 });
     }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (activeDialog != null && activeDialog.isShowing()) {
+            activeDialog.dismiss();
+            activeDialog = null; // איפוס הרפרנס כדי למנוע זליגות זיכרון
+        }
+    }
+
 }

@@ -12,6 +12,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.schoolhub.Login.LoginScreen;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,9 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView menu;
-    private FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
-    private FirebaseFirestore db;
+
 
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -34,24 +33,11 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    public void replaceFragmentWithData(Fragment fragment, Bundle data) {
-        fragment.setArguments(data);
-        replaceFragment(fragment);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-        db = FirebaseFirestore.getInstance();
-
-        if (currentUser == null) {
-            redirectToLogin();
-            return;
-        }
 
         menu = findViewById(R.id.menu);
 
@@ -60,16 +46,8 @@ public class MainActivity extends AppCompatActivity {
             int itemId = item.getItemId();
             if (itemId == R.id.navigation_home) {
                 fragment = new homeFragment();
-                Bundle data = new Bundle();
-                data.putString("userId", currentUser.getUid());
-                replaceFragmentWithData(fragment, data);
-                return true;
             } else if (itemId == R.id.navigation_timetable) {
                 fragment = new TimeTableFragment();
-                Bundle data = new Bundle();
-                data.putString("userId", currentUser.getUid());
-                replaceFragmentWithData(fragment, data);
-                return true;
             }
             if (fragment != null) {
                 replaceFragment(fragment);
@@ -78,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-        // Restore fragment state or set default
         if (savedInstanceState == null) {
             menu.setSelectedItemId(R.id.navigation_home);
         }
