@@ -19,6 +19,29 @@
         android:paddingBottom="8dp">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/NameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            app:endIconMode="clear_text"
+            app:startIconTint="@color/black"
+            app:hintTextColor="@color/black"
+            android:textColorHint="@color/black"
+            android:hint="Enter Your Name"
+            app:counterEnabled="true"
+            app:counterMaxLength="20">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/NameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                app:hintTextColor="@color/lightGrey"
+                android:textColorHint="@color/lightGrey" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/signUpemailLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
