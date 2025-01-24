@@ -8,6 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -22,13 +23,14 @@ public class AddClassDialogFragment extends DialogFragment {
     private Button startTimeButton, endTimeButton, addButton, colorPickerButton;
     private RadioGroup daysGroup;
     private String selectedDay = "";
+    private ImageButton closeBtn;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_class_dialog, container, false);
@@ -41,7 +43,7 @@ public class AddClassDialogFragment extends DialogFragment {
         addButton = view.findViewById(R.id.addButton);
         colorPickerButton = view.findViewById(R.id.colorPickerButton);
         daysGroup = view.findViewById(R.id.daysRadioGroup);
-
+        closeBtn = view.findViewById(R.id.closeBtn);
         // Handle Day Selection
         setupDaySelection();
 
@@ -67,11 +69,12 @@ public class AddClassDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
-
         // Handle Color Picker Button
         colorPickerButton.setOnClickListener(v -> {
             Toast.makeText(getContext(), "בחר צבע למקצוע", Toast.LENGTH_SHORT).show();
         });
+        // Handle Close Button
+        closeBtn.setOnClickListener(v -> dismiss());
 
         return view;
     }

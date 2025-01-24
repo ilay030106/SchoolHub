@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gray"
+    android:backgroundTint="#33111111"
     android:orientation="vertical"
     android:gravity="center">
 
@@ -42,71 +42,94 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp">
+            android:orientation="vertical">
 
-            <AutoCompleteTextView
-                android:id="@+id/TextInputClass"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_weight="1"
-                android:paddingRight="7dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
 
-            <TextView
-                android:id="@+id/tvClass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="9dp"
-                android:fontFamily="@font/varela_round_regular"
-                android:paddingStart="7dp"
-                android:text="שם השיעור"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                <AutoCompleteTextView
+                    android:id="@+id/TextInputClass"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:paddingRight="7dp" />
+
+                <TextView
+                    android:id="@+id/tvClass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="9dp"
+                    android:fontFamily="@font/varela_round_regular"
+                    android:paddingStart="7dp"
+                    android:text="שם השיעור"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/TextInputTeacher"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:paddingRight="7dp" />
+
+                <TextView
+                    android:id="@+id/tvTeacher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="שם המורה"
+                    android:layout_marginEnd="9dp"
+                    android:paddingStart="7dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/varela_round_regular" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/ClassNumberInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:paddingRight="7dp" />
+
+                <TextView
+                    android:id="@+id/tvClassNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="מספר חדר"
+                    android:layout_marginEnd="9dp"
+                    android:paddingStart="7dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/varela_round_regular" />
+            </LinearLayout>
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
     <!-- Teacher Name Card -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/teacherCard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="20dp"
-        app:cardCornerRadius="30dp"
-        app:layout_constraintTop_toBottomOf="@id/classCard"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp">
-
-            <AutoCompleteTextView
-                android:id="@+id/TextInputTeacher"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_weight="1"
-                android:paddingRight="7dp" />
-
-            <TextView
-                android:id="@+id/tvTeacher"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="שם המורה"
-                android:layout_marginEnd="9dp"
-                android:paddingStart="7dp"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/varela_round_regular" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/daysCard"
@@ -270,14 +293,15 @@
         android:layout_marginEnd="15dp"
         android:layout_marginTop="20dp"
         app:cardCornerRadius="30dp"
-        app:layout_constraintTop_toBottomOf="@id/teacherCard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -332,67 +356,50 @@
                         android:text="שעת סיום" />
                 </LinearLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/AddLessonBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="הוסף שיעור" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/colorPickerButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:layout_marginStart="8dp"
+                    android:text="בחר צבע"
+                    android:textColor="@color/lightBlueSecColor"
+                    app:icon="@drawable/color_picker_icon"
+                    app:iconTint="@null"
+                    android:layout_marginBottom="7dp" />
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
     <!-- Days Card -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/actionButtonsCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
         android:layout_marginTop="20dp"
-        app:cardCornerRadius="30dp"
-        app:layout_constraintTop_toBottomOf="@id/daysCard"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:padding="16dp">
-
-            <!-- Add Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/addButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                android:text="הוסף"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:textColor="@color/lightBlueSecColor" />
-
-            <!-- Color Picker Button -->
-            <!-- Color Picker Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/colorPickerButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:text="בחר צבע"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:textColor="@color/lightBlueSecColor" />
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <!-- Lesson Preview Card -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginTop="20dp"
         app:cardCornerRadius="15dp"
-        app:layout_constraintTop_toBottomOf="@id/daysCard"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/daysCard">
 
         <include
             layout="@layout/lesson_item_layout"
@@ -400,5 +407,17 @@
             android:layout_height="wrap_content"
             android:padding="16dp" />
     </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addButton"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="הוסף"
+        android:textColor="@color/lightBlueSecColor"
+        android:layout_marginTop="15dp" />
+
+    <!-- Lesson Preview Card -->
 
 </LinearLayout>
