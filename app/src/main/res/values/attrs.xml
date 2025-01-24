@@ -1,0 +1,7 @@
+<resources>
+    <!-- Define custom attributes -->
+    <declare-styleable name="FullScreenTheme">
+        <attr name="fullscreenBackgroundColor" format="color" />
+        <attr name="fullscreenTextColor" format="color" />
+    </declare-styleable>
+</resources>

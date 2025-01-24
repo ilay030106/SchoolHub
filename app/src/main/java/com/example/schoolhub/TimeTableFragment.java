@@ -9,8 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -19,6 +21,7 @@ public class TimeTableFragment extends Fragment {
     TabLayout tabLayout;
     ViewPager2 viewPager;
     TimetablePagerAdapter adapter;
+    ExtendedFloatingActionButton addLessonFab;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,7 @@ public class TimeTableFragment extends Fragment {
         // Initialize views
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
+        addLessonFab = view.findViewById(R.id.add_lesson_fab);
 
         // Set up adapter and ViewPager
         adapter = new TimetablePagerAdapter(this);
@@ -60,7 +64,13 @@ public class TimeTableFragment extends Fragment {
             tab.setCustomView(customTab);
         }).attach();
 
+        // Handle FAB click to open AddClassDialogFragment
+        addLessonFab.setOnClickListener(v -> {
+            FragmentManager fragmentManager = getParentFragmentManager();
+            AddClassDialogFragment dialogFragment = new AddClassDialogFragment();
+            dialogFragment.show(fragmentManager, "AddClassDialogFragment");
+        });
+
         return view;
     }
-
 }

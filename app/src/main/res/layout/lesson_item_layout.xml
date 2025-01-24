@@ -3,76 +3,107 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardview"
-    android:background="@drawable/background_gray"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
-    app:cardCornerRadius="8dp">
-
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    android:background="@drawable/background_gray"> <!-- אפור -->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayoutUsers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_gray"
         android:minHeight="144dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_username_homef">
+        android:padding="16dp"
+        android:background="@drawable/background_gray">
 
+        <!-- שם השיעור -->
         <TextView
             android:id="@+id/tv_lessonName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="232dp"
-            android:layout_marginTop="16dp"
             android:fontFamily="@font/poppins_medium"
-            android:text="LessonName"
+            android:gravity="end"
+            android:text="שם השיעור"
             android:textColor="#1A6392"
-            android:textSize="20dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textDirection="rtl"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- שם המורה -->
         <TextView
             android:id="@+id/tv_teacherName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="264dp"
-            android:layout_marginTop="8dp"
-            android:text="TeacherName"
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="end"
+            android:text="שם המורה"
             android:textColor="@color/black"
-            android:textSize="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_lessonName" />
+            android:textDirection="rtl"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_lessonName"
+            android:layout_marginTop="8dp" />
 
+        <!-- מספר החדר -->
         <TextView
             android:id="@+id/tv_roomNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="264dp"
-            android:layout_marginTop="8dp"
             android:fontFamily="@font/poppins_regular"
-            android:text="RoomNumber"
+            android:gravity="end"
+            android:text="חדר 101"
             android:textColor="@color/black"
+            android:textDirection="rtl"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_teacherName"
+            android:layout_marginTop="8dp" />
 
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_teacherName" />
+        <!-- שעה התחלה -->
+        <TextView
+            android:id="@+id/tvStartTimeDisp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="end"
+            android:text="שעת התחלה: 08:00"
+            android:textColor="@color/black"
+            android:textDirection="rtl"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_roomNum"
+            android:layout_marginTop="12dp" />
 
+        <!-- שעה סיום -->
+        <TextView
+            android:id="@+id/tvEndTimeDisp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="end"
+            android:text="שעת סיום: 09:00"
+            android:textColor="@color/black"
+            android:textDirection="rtl"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvStartTimeDisp"
+            android:layout_marginTop="4dp" />
+
+        <!-- כפתור הצגת מטלות -->
         <Button
-            android:id="@+id/btn_demote"
-            style="@style/Widget.Material3.Button.TonalButton"
-            android:layout_width="163dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="48dp"
+            android:id="@+id/btn_lesson"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="204dp"
+            android:layout_marginBottom="60dp"
             android:backgroundTint="@color/lightBlueSecColor"
             android:fontFamily="@font/varela_round_regular"
             android:text="הצג מטלות"
             android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
