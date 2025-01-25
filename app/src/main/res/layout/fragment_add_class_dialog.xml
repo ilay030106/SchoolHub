@@ -15,17 +15,44 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
 
-        <ImageButton
-            android:id="@+id/closeBtn"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:backgroundTint="@color/Transparent"
-            android:src="@drawable/close_icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="left">
+
+            <ImageButton
+                android:id="@+id/closeBtn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:backgroundTint="@color/Transparent"
+                android:src="@drawable/close_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="right">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="הוסף"
+                android:textColor="@color/lightBlueSecColor" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
@@ -357,32 +384,17 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/AddLessonBtn"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="הוסף שיעור" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/colorPickerButton"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-
-                    android:layout_marginStart="8dp"
-                    android:text="בחר צבע"
-                    android:textColor="@color/lightBlueSecColor"
-                    app:icon="@drawable/color_picker_icon"
-                    app:iconTint="@null"
-                    android:layout_marginBottom="7dp" />
-            </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/colorPickerButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="בחר צבע"
+                android:textColor="@color/lightBlueSecColor"
+                app:icon="@drawable/color_picker_icon"
+                app:iconTint="@null"
+                android:layout_marginBottom="7dp" />
 
 
         </LinearLayout>
@@ -407,16 +419,6 @@
             android:layout_height="wrap_content"
             android:padding="16dp" />
     </androidx.cardview.widget.CardView>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/addButton"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="הוסף"
-        android:textColor="@color/lightBlueSecColor"
-        android:layout_marginTop="15dp" />
 
     <!-- Lesson Preview Card -->
 
