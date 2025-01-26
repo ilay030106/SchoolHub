@@ -48,9 +48,11 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="17dp"
                 android:text="הוסף"
-                android:textColor="@color/lightBlueSecColor" />
+                android:textColor="@color/lightBlueSecColor"
+                app:cornerRadius="20dp"
+                android:layout_marginBottom="5dp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -155,7 +157,7 @@
 
     </androidx.cardview.widget.CardView>
 
-    <!-- Teacher Name Card -->
+    <!-- com.example.schoolhub.Teacher Name Card -->
 
 
     <androidx.cardview.widget.CardView
@@ -178,136 +180,42 @@
             android:gravity="center"
             android:padding="16dp">
 
-            <!-- Sunday -->
-            <LinearLayout
-                android:layout_width="0dp"
+            <RadioButton
+                android:id="@+id/rbSunday"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_margin="8dp">
+                android:buttonTint="@color/lightBlueSecColor"
+                android:text="ראשון" />
 
-                <RadioButton
-                    android:id="@+id/rbSunday"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/lightBlueSecColor" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="ראשון"
-                    android:fontFamily="@font/varela_round_regular"
-
-                    android:textSize="14sp"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
-            <!-- Monday -->
-            <LinearLayout
-                android:layout_width="0dp"
+            <RadioButton
+                android:id="@+id/rbMonday"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_margin="8dp">
+                android:buttonTint="@color/lightBlueSecColor"
+                android:text="שני" />
 
-                <RadioButton
-                    android:id="@+id/rbMonday"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/lightBlueSecColor" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="שני"
-                    android:fontFamily="@font/varela_round_regular"
-
-                    android:textSize="14sp"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
-            <!-- Tuesday -->
-            <LinearLayout
-                android:layout_width="0dp"
+            <RadioButton
+                android:id="@+id/rbTuesday"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_margin="8dp">
+                android:buttonTint="@color/lightBlueSecColor"
+                android:text="שלישי" />
 
-                <RadioButton
-                    android:id="@+id/rbTuesday"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/lightBlueSecColor" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="שלישי"
-                    android:fontFamily="@font/varela_round_regular"
-                    android:textSize="14sp"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
-            <!-- Wednesday -->
-            <LinearLayout
-                android:layout_width="0dp"
+            <RadioButton
+                android:id="@+id/rbWednesday"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_margin="8dp">
+                android:buttonTint="@color/lightBlueSecColor"
+                android:text="רביעי" />
 
-                <RadioButton
-                    android:id="@+id/rbWednesday"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/lightBlueSecColor" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="רביעי"
-                    android:fontFamily="@font/varela_round_regular"
-
-                    android:textSize="14sp"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
-            <!-- Thursday -->
-            <LinearLayout
-                android:layout_width="0dp"
+            <RadioButton
+                android:id="@+id/rbThursday"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_margin="8dp">
-
-                <RadioButton
-                    android:id="@+id/rbThursday"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/lightBlueSecColor" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="חמישי"
-                    android:fontFamily="@font/varela_round_regular"
-
-                    android:textSize="14sp"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
+                android:buttonTint="@color/lightBlueSecColor"
+                android:text="חמישי" />
         </RadioGroup>
+
 
     </androidx.cardview.widget.CardView>
 
@@ -353,7 +261,7 @@
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/startTimeBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -376,7 +284,7 @@
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/endTimeBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -389,7 +297,6 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:text="בחר צבע"
                 android:textColor="@color/lightBlueSecColor"
                 app:icon="@drawable/color_picker_icon"

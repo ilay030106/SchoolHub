@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 public class DayFragment extends Fragment {
 
-    private String dayName;
+    private final String dayName;
 
     public DayFragment(String dayName) {
         this.dayName = dayName;
