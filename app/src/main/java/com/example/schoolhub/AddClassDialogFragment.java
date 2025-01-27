@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -22,25 +20,22 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class AddClassDialogFragment extends DialogFragment {
 
-    private AutoCompleteTextView classInput, teacherInput;
-    private MaterialButton startTimeButton, endTimeButton, addButton, colorPickerButton, btn_lesson;
+    private MaterialAutoCompleteTextView classInput, teacherInput, ClassNumberInput;
+    private MaterialButton startTimeButton, endTimeButton, addButton, colorPickerButton, btn_lesson_tasks;
     private RadioGroup daysGroup;
-    private String selectedDay = "";
-    private String selectedColor = "#1A6392"; // ברירת מחדל לצבע
-    private ImageButton closeBtn;
-
-    // רכיבי Preview
-    private TextView previewLessonName, previewTeacherName, previewRoomNum, previewStartTime, previewEndTime;
-    private View previewColorIndicator;
+    private String selectedDay = "", StartTime, EndTime;
+    private String selectedColor = "#1A6392"; // Default color
+    private TextView previewLessonName, previewTeacherName, previewRoomNum, tvTimeDisplay;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,25 +47,21 @@ public class AddClassDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_class_dialog, container, false);
 
-        // אתחול ViewModel
+        // ViewModel Initialization
         LessonViewModel lessonViewModel = new ViewModelProvider(this).get(LessonViewModel.class);
 
-        // אתחול רכיבי UI
+        // Initialize UI
         initializeUI(view);
         setupDaySelection(view);
-        // תצוגה דינמית של Preview
         setupDynamicPreview();
-
-        // AutoComplete לשם השיעור והמורה
         setupAutoComplete(lessonViewModel);
-
-        // כפתור בחירת צבע
         setupColorPicker();
 
-        // כפתור הוספת שיעור
+        // Add Button Listener
         addButton.setOnClickListener(v -> {
             String className = classInput.getText().toString();
             String teacherName = teacherInput.getText().toString();
+            String roomNum = ClassNumberInput.getText().toString();
             String startTime = startTimeButton.getText().toString();
             String endTime = endTimeButton.getText().toString();
 
@@ -80,7 +71,7 @@ public class AddClassDialogFragment extends DialogFragment {
             }
 
             Teacher teacher = new Teacher(teacherName);
-            Lesson newLesson = new Lesson(className, teacher, selectedDay, startTime, endTime, selectedColor);
+            Lesson newLesson = new Lesson(className, teacher, roomNum, selectedDay, startTime, endTime, selectedColor);
 
             lessonViewModel.addLesson(newLesson, new LessonRepository.OnLessonAddedListener() {
                 @Override
@@ -109,26 +100,25 @@ public class AddClassDialogFragment extends DialogFragment {
     }
 
     private void initializeUI(View view) {
-        // רכיבי קלט
         classInput = view.findViewById(R.id.TextInputClass);
         teacherInput = view.findViewById(R.id.TextInputTeacher);
+        ClassNumberInput = view.findViewById(R.id.ClassNumberInput);
         startTimeButton = view.findViewById(R.id.startTimeBtn);
         endTimeButton = view.findViewById(R.id.endTimeBtn);
         addButton = view.findViewById(R.id.addButton);
         colorPickerButton = view.findViewById(R.id.colorPickerButton);
         daysGroup = view.findViewById(R.id.daysRadioGroup);
 
-        // רכיבי Preview
+        // Preview UI
         previewLessonName = view.findViewById(R.id.tv_lessonName);
-        btn_lesson = view.findViewById(R.id.btn_lesson);
+        btn_lesson_tasks = view.findViewById(R.id.btn_lesson_tasks);
         previewTeacherName = view.findViewById(R.id.tv_teacherName);
         previewRoomNum = view.findViewById(R.id.tv_roomNum);
-        previewStartTime = view.findViewById(R.id.tvStartTimeDisp);
-        previewEndTime = view.findViewById(R.id.tvEndTimeDisp);
+        tvTimeDisplay = view.findViewById(R.id.tvTimeDisplay);
     }
 
     private void setupDynamicPreview() {
-        // שינוי שם שיעור
+        // Update Preview based on Input
         classInput.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -136,7 +126,6 @@ public class AddClassDialogFragment extends DialogFragment {
             }
         });
 
-        // שינוי שם מורה
         teacherInput.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -144,7 +133,13 @@ public class AddClassDialogFragment extends DialogFragment {
             }
         });
 
-        // שינוי שעת התחלה
+        ClassNumberInput.addTextChangedListener(new SimpleTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                previewRoomNum.setText(s.toString().isEmpty() ? "מספר החדר" : s.toString());
+            }
+        });
+
         startTimeButton.setOnClickListener(v -> {
             MaterialTimePicker picker = new MaterialTimePicker.Builder()
                     .setTimeFormat(TimeFormat.CLOCK_24H)
@@ -156,13 +151,12 @@ public class AddClassDialogFragment extends DialogFragment {
             picker.show(getParentFragmentManager(), "startTimePicker");
 
             picker.addOnPositiveButtonClickListener(view -> {
-                String time = String.format("%02d:%02d", picker.getHour(), picker.getMinute());
-                startTimeButton.setText(time);
-                previewStartTime.setText("שעת התחלה: " + time);
+                StartTime = String.format("%02d:%02d", picker.getHour(), picker.getMinute());
+                startTimeButton.setText(StartTime);
+                tvTimeDisplay.setText(StartTime + " - ");
             });
         });
 
-        // שינוי שעת סיום
         endTimeButton.setOnClickListener(v -> {
             MaterialTimePicker picker = new MaterialTimePicker.Builder()
                     .setTimeFormat(TimeFormat.CLOCK_24H)
@@ -174,47 +168,37 @@ public class AddClassDialogFragment extends DialogFragment {
             picker.show(getParentFragmentManager(), "endTimePicker");
 
             picker.addOnPositiveButtonClickListener(view -> {
-                String time = String.format("%02d:%02d", picker.getHour(), picker.getMinute());
-                endTimeButton.setText(time);
-                previewEndTime.setText("שעת סיום: " + time);
+                EndTime = String.format("%02d:%02d", picker.getHour(), picker.getMinute());
+                endTimeButton.setText(EndTime);
+                tvTimeDisplay.setText(tvTimeDisplay.getText() + EndTime);
             });
         });
     }
 
     private void setupDaySelection(View view) {
-        RadioGroup daysGroup = view.findViewById(R.id.daysRadioGroup);
-
         daysGroup.setOnCheckedChangeListener((group, checkedId) -> {
             RadioButton selectedButton = group.findViewById(checkedId);
             if (selectedButton != null) {
-                selectedDay = selectedButton.getText().toString(); // שמירת היום שנבחר
-
+                selectedDay = selectedButton.getText().toString();
             }
         });
     }
 
     private void setupColorPicker() {
         colorPickerButton.setOnClickListener(v -> {
-            // רשימת צבעים אפשריים
             String[] colors = {"#FF5733", "#33FF57", "#3357FF", "#FFD700"};
 
-            // דיאלוג בחירת צבע
             new MaterialAlertDialogBuilder(requireContext())
                     .setTitle("בחר צבע")
                     .setItems(colors, (dialog, which) -> {
-                        selectedColor = colors[which]; // שמור את הצבע הנבחר
-
-                        // עדכון צבע הכפתור
-                        btn_lesson.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
+                        selectedColor = colors[which];
+                        btn_lesson_tasks.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
                                 android.graphics.Color.parseColor(selectedColor)));
-
-                        // עדכון צבע שם השיעור בתצוגה
                         previewLessonName.setTextColor(android.graphics.Color.parseColor(selectedColor));
                     })
                     .show();
         });
     }
-
 
     private void setupAutoComplete(LessonViewModel viewModel) {
         viewModel.fetchSuggestions("name", new LessonRepository.OnFetchSuggestionsListener() {
@@ -222,16 +206,62 @@ public class AddClassDialogFragment extends DialogFragment {
             public void onFetch(List<String> suggestions) {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, suggestions);
                 classInput.setAdapter(adapter);
+                classInput.setThreshold(1); // Show suggestions after typing 1 character
+                classInput.setOnFocusChangeListener((view, hasFocus) -> {
+                    if (hasFocus) {
+                        classInput.showDropDown(); // Show suggestions when focused
+                    }
+                });
             }
 
             @Override
             public void onFailure(Exception e) {
-                Toast.makeText(getContext(), "Failed to fetch suggestions", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Failed to fetch suggestions: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Repeat for teacherInput
+        viewModel.fetchSuggestions("teacher", new LessonRepository.OnFetchSuggestionsListener() {
+            @Override
+            public void onFetch(List<String> suggestions) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, suggestions);
+                teacherInput.setAdapter(adapter);
+                teacherInput.setThreshold(1); // Show suggestions after typing 1 character
+                teacherInput.setOnFocusChangeListener((view, hasFocus) -> {
+                    if (hasFocus) {
+                        teacherInput.showDropDown(); // Show suggestions when focused
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Toast.makeText(getContext(), "Failed to fetch suggestions: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Repeat for ClassNumberInput
+        viewModel.fetchSuggestions("roomNum", new LessonRepository.OnFetchSuggestionsListener() {
+            @Override
+            public void onFetch(List<String> suggestions) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, suggestions);
+                ClassNumberInput.setAdapter(adapter);
+                ClassNumberInput.setThreshold(1); // Show suggestions after typing 1 character
+                ClassNumberInput.setOnFocusChangeListener((view, hasFocus) -> {
+                    if (hasFocus) {
+                        ClassNumberInput.showDropDown(); // Show suggestions when focused
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Toast.makeText(getContext(), "Failed to fetch suggestions: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    abstract static class SimpleTextWatcher implements android.text.TextWatcher {
+    abstract static class SimpleTextWatcher implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }

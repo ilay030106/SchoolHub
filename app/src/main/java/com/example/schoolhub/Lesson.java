@@ -1,21 +1,26 @@
 package com.example.schoolhub;
 
 public class Lesson {
+    private String id; // Firestore document ID
+
     private String name;
     private Teacher teacher;
+    private String roomNum;
     private String day;
     private String startTime; // במקום Time
     private String endTime;   // במקום Time
     private String color;
+
 
     // בנאי ריק (נדרש על ידי Firestore)
     public Lesson() {
     }
 
     // בנאי מלא
-    public Lesson(String name, Teacher teacher, String day, String startTime, String endTime, String color) {
+    public Lesson(String name, Teacher teacher, String roomNum, String day, String startTime, String endTime, String color) {
         this.name = name;
         this.teacher = teacher;
+        this.roomNum = roomNum;
         this.day = day;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -69,5 +74,21 @@ public class Lesson {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public String getRoomNum() {
+        return roomNum;
+    }
+
+    public void setRoomNum(String roomNum) {
+        this.roomNum = roomNum;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

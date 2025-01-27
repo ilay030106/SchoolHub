@@ -80,7 +80,7 @@
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/TextInputClass"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/TextInputTeacher"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/ClassNumberInput"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

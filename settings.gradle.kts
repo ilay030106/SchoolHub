@@ -14,8 +14,9 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
-        mavenCentral()
+        google() // Required for Firebase and AndroidX
+        mavenCentral() // Required for most dependencies
+        jcenter() // Optional, only if you have older dependencies
     }
 }
 

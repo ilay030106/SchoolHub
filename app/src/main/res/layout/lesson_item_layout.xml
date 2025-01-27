@@ -64,7 +64,7 @@
 
         <!-- שעה התחלה -->
         <TextView
-            android:id="@+id/tvStartTimeDisp"
+            android:id="@+id/tvTimeDisplay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
@@ -78,26 +78,13 @@
             android:layout_marginTop="12dp" />
 
         <!-- שעה סיום -->
-        <TextView
-            android:id="@+id/tvEndTimeDisp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
-            android:gravity="end"
-            android:text="שעת סיום: 09:00"
-            android:textColor="@color/black"
-            android:textDirection="rtl"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvStartTimeDisp"
-            android:layout_marginTop="4dp" />
 
         <!-- כפתור הצגת מטלות -->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_lesson"
+            android:id="@+id/btn_lesson_tasks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="204dp"
+            android:layout_marginEnd="190dp"
             android:layout_marginBottom="60dp"
             android:backgroundTint="@color/lightBlueSecColor"
             android:fontFamily="@font/varela_round_regular"

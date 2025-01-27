@@ -36,28 +36,32 @@ android {
 }
 
 dependencies {
+    // Firebase dependencies
     implementation(libs.firebase.storage) // Firebase Storage
     implementation(libs.firebase.auth)   // Firebase Authentication
-    implementation(libs.firebase.database)// Realtime Database
-    implementation(libs.firebase.database)// Realtime Database
-    implementation(libs.firebase.firestore)
-    implementation(libs.firebase.firestore)
-    implementation(libs.firebase.ui.storage)
-    implementation(libs.firebase.ui.database)
-    implementation(libs.firebase.analytics)
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.ui.auth)
+    implementation(libs.firebase.database) // Realtime Database
+    implementation(libs.firebase.firestore) // Firestore
+    implementation(libs.firebase.ui.storage) // Firebase UI for Storage
+    implementation(libs.firebase.ui.database) // Firebase UI for Realtime Database
+    implementation(libs.firebase.analytics) // Firebase Analytics
+    implementation(platform(libs.firebase.bom)) // Firebase BOM
+    implementation(libs.firebase.ui.auth) // Firebase UI for Authentication
+
+    // AndroidX dependencies
     implementation(libs.appcompat)
-    implementation(libs.material)
+    implementation(libs.material) // Material Design
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)
-    implementation(libs.firebase.storage)
+
+
+    // Miscellaneous
     implementation(libs.annotation)
     implementation(libs.xcom.google.android.material.material)
+
+    // Testing dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
 }
