@@ -1,4 +1,4 @@
-package com.example.schoolhub;
+package com.example.schoolhub.TimeTable;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,18 +14,21 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.schoolhub.TimeTable.Lesson.Lesson;
+import com.example.schoolhub.TimeTable.Lesson.LessonRepository;
+import com.example.schoolhub.TimeTable.Lesson.LessonViewModel;
+import com.example.schoolhub.TimeTable.Lesson.Teacher;
+import com.example.schoolhub.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class AddClassDialogFragment extends DialogFragment {

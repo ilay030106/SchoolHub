@@ -1,10 +1,9 @@
-package com.example.schoolhub;
+package com.example.schoolhub.TimeTable.Lesson;
 
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.schoolhub.Lesson;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -13,11 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LessonRepository {
-    private final FirebaseFirestore db;
     private final CollectionReference lessonsRef;
 
     public LessonRepository() {
-        db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         lessonsRef = db.collection("Lessons");
     }
 

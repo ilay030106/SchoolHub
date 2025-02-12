@@ -1,10 +1,8 @@
-package com.example.schoolhub;
+package com.example.schoolhub.TimeTable.Lesson;
 
 import android.os.Build;
 
 import androidx.lifecycle.ViewModel;
-
-import java.util.List;
 
 public class LessonViewModel extends ViewModel {
     private final LessonRepository repository;

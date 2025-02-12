@@ -1,4 +1,4 @@
-package com.example.schoolhub;
+package com.example.schoolhub.TimeTable;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -17,6 +17,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.schoolhub.TimeTable.Lesson.Lesson;
+import com.example.schoolhub.TimeTable.Lesson.LessonAdapter;
+import com.example.schoolhub.TimeTable.Lesson.LessonRepository;
+import com.example.schoolhub.R;
 
 import java.util.List;
 

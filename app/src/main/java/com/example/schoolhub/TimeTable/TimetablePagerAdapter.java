@@ -1,4 +1,4 @@
-package com.example.schoolhub;
+package com.example.schoolhub.TimeTable;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

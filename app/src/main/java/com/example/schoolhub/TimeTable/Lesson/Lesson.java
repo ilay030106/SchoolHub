@@ -1,4 +1,4 @@
-package com.example.schoolhub;
+package com.example.schoolhub.TimeTable.Lesson;
 
 public class Lesson {
     private String id; // Firestore document ID

@@ -1,4 +1,4 @@
-package com.example.schoolhub;
+package com.example.schoolhub.TimeTable.Lesson;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.schoolhub.R;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
