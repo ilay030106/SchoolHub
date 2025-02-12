@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.schoolhub.MainActivity;
 import com.example.schoolhub.R;
@@ -43,7 +44,7 @@ public class LoginScreen extends AppCompatActivity {
     private static final String KEY_EMAIL = "email";
 
     TextInputLayout emailLayout, passwordLayout;
-    TextInputEditText emailInput, passwordInput;
+    TextInputEditText emailInput, passwordInput,nameInput;
     MaterialButton EmailSignIn;
     ProgressDialog progressDialog;
 
@@ -53,11 +54,15 @@ public class LoginScreen extends AppCompatActivity {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private Dialog activeDialog;
 
+    private SharedViewModel sharedViewModel;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login_screen);
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -71,12 +76,13 @@ public class LoginScreen extends AppCompatActivity {
         if (isRemembered) {
             String savedEmail = preferences.getString(KEY_EMAIL, "");
             proceedToMainScreen(savedEmail);
+
             return;
         }
 
         EmailSignIn = findViewById(R.id.EmailSignIn);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken("433599334811-14p1hrshlf1nrb7nk7l7h8p92r69n8gk.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -136,7 +142,7 @@ public class LoginScreen extends AppCompatActivity {
         TextInputLayout passwordLayout = activeDialog.findViewById(R.id.signUppasswordLayout);
         TextInputLayout confirmPasswordLayout = activeDialog.findViewById(R.id.confirm_passwordLayout);
 
-        TextInputEditText nameInput = activeDialog.findViewById(R.id.NameInput);
+        nameInput = activeDialog.findViewById(R.id.NameInput);
         TextInputEditText emailInput = activeDialog.findViewById(R.id.signUpemailInput);
         TextInputEditText passwordInput = activeDialog.findViewById(R.id.signUp_passwordInput);
         TextInputEditText confirmPasswordInput = activeDialog.findViewById(R.id.confirm_passwordInput);
@@ -150,20 +156,62 @@ public class LoginScreen extends AppCompatActivity {
 
             if (validateSignUpInputs(name, email, password, confirmPassword, nameLayout, emailLayout, passwordLayout, confirmPasswordLayout)) {
                 createNewUser(email, password, name, activeDialog);
+                sharedViewModel.setFirstName(name);
+
             }
         });
 
         activeDialog.show();
     }
+    private boolean validateSignUpInputs(String name, String email, String password, String confirmPassword, TextInputLayout nameLayout, TextInputLayout emailLayout, TextInputLayout passwordLayout, TextInputLayout confirmPasswordLayout) {
+        boolean isValid = true;
 
-    private boolean validateSignUpInputs(String name, String email, String password, String confirmPassword,
-                                         TextInputLayout nameLayout, TextInputLayout emailLayout,
-                                         TextInputLayout passwordLayout, TextInputLayout confirmPasswordLayout) {
         if (name.isEmpty()) {
-            nameLayout.setError("Name is required");
-            return false;
+            nameLayout.setError("Name cannot be empty");
+            isValid = false;
         } else {
             nameLayout.setError(null);
+        }
+
+        if (email.isEmpty()) {
+            emailLayout.setError("Email cannot be empty");
+            isValid = false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailLayout.setError("Invalid email format");
+            isValid = false;
+        } else {
+            emailLayout.setError(null);
+        }
+
+        if (password.isEmpty()) {
+            passwordLayout.setError("Password cannot be empty");
+            isValid = false;
+        } else {
+            passwordLayout.setError(null);
+        }
+
+        if (confirmPassword.isEmpty()) {
+            confirmPasswordLayout.setError("Confirm Password cannot be empty");
+            isValid = false;
+        } else if (!confirmPassword.equals(password)) {
+            confirmPasswordLayout.setError("Passwords do not match");
+            isValid = false;
+        } else {
+            confirmPasswordLayout.setError(null);
+        }
+
+        return isValid;
+    }
+
+    private boolean validateInputs() {
+        String email = Objects.requireNonNull(emailInput.getText()).toString();
+        String password = Objects.requireNonNull(passwordInput.getText()).toString();
+
+        if (email.isEmpty()) {
+            emailLayout.setError("Email cannot be empty");
+            return false;
+        } else {
+            emailLayout.setError(null);
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -173,21 +221,48 @@ public class LoginScreen extends AppCompatActivity {
             emailLayout.setError(null);
         }
 
-        if (password.length() < 6) {
-            passwordLayout.setError("Password must be at least 6 characters");
+        if (password.isEmpty()) {
+            passwordLayout.setError("Password cannot be empty");
             return false;
         } else {
             passwordLayout.setError(null);
         }
 
-        if (!password.equals(confirmPassword)) {
-            confirmPasswordLayout.setError("Passwords do not match");
-            return false;
-        } else {
-            confirmPasswordLayout.setError(null);
-        }
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Signing in...");
+        progressDialog.show();
 
-        return true;
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    progressDialog.dismiss();
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            fetchUserNameAndProceed(user.getUid());
+                        }
+                    } else {
+                        passwordLayout.setError("Authentication failed: " + Objects.requireNonNull(task.getException()).getMessage());
+                    }
+                });
+
+        return false; // Validation completes asynchronously
+    }
+
+    private void fetchUserNameAndProceed(String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").document(userId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String firstName = documentSnapshot.getString("firstName");
+                        sharedViewModel.setFirstName(firstName);
+                        proceedToMainScreen(firstName);
+                    } else {
+                        Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to fetch user details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void createNewUser(String email, String password, String name, Dialog dialog) {
@@ -229,13 +304,13 @@ public class LoginScreen extends AppCompatActivity {
 
         Map<String, Object> userDetails = new HashMap<>();
         userDetails.put("email", email);
-        userDetails.put("firstName", name.split(" ")[0]);
+        userDetails.put("firstName", name);
 
         db.collection("users").document(userId)
                 .set(userDetails)
                 .addOnSuccessListener(aVoid -> {
                     dialog.dismiss();
-                    proceedToMainScreen(email);
+                    proceedToMainScreen(name);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Failed to save user details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -256,51 +331,11 @@ public class LoginScreen extends AppCompatActivity {
         }
     }
 
-    private boolean validateInputs() {
-        String email = Objects.requireNonNull(emailInput.getText()).toString();
-        String password = Objects.requireNonNull(passwordInput.getText()).toString();
 
-        if (email.isEmpty()) {
-            emailLayout.setError("Email cannot be empty");
-            return false;
-        } else {
-            emailLayout.setError(null);
-        }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailLayout.setError("Invalid email format");
-            return false;
-        } else {
-            emailLayout.setError(null);
-        }
-
-        if (password.isEmpty()) {
-            passwordLayout.setError("Password cannot be empty");
-            return false;
-        } else {
-            passwordLayout.setError(null);
-        }
-
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Signing in...");
-        progressDialog.show();
-
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    progressDialog.dismiss();
-                    if (task.isSuccessful()) {
-                        proceedToMainScreen(email);
-                    } else {
-                        passwordLayout.setError("Authentication failed: " + Objects.requireNonNull(task.getException()).getMessage());
-                    }
-                });
-
-        return false; // Validation completes asynchronously
-    }
-
-    private void proceedToMainScreen(String email) {
+    private void proceedToMainScreen(String name) {
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("email", email);
+        intent.putExtra("firstName", name);
+
         startActivity(intent);
         finish();
     }
@@ -332,13 +367,14 @@ public class LoginScreen extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        proceedToMainScreen(Objects.requireNonNull(user).getEmail());
+                        if (user != null) {
+                            fetchUserNameAndProceed(user.getUid());
+                        }
                     } else {
                         Toast.makeText(this, "Google Sign-In failed", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
-
 
     @Override
     protected void onDestroy() {

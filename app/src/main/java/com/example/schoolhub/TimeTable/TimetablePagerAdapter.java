@@ -5,9 +5,10 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class TimetablePagerAdapter extends FragmentStateAdapter {
-
-    public TimetablePagerAdapter(@NonNull Fragment fragment) {
+    private final String userId;
+    public TimetablePagerAdapter(@NonNull Fragment fragment,String userId) {
         super(fragment);
+        this.userId = userId;
     }
 
     @NonNull
@@ -15,17 +16,17 @@ public class TimetablePagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new DayFragment("ראשון");
+                return new DayFragment("ראשון",userId);
             case 1:
-                return new DayFragment("שני");
+                return new DayFragment("שני",userId);
             case 2:
-                return new DayFragment("שלישי");
+                return new DayFragment("שלישי",userId);
             case 3:
-                return new DayFragment("רביעי");
+                return new DayFragment("רביעי",userId);
             case 4:
-                return new DayFragment("חמישי");
+                return new DayFragment("חמישי",userId);
             default:
-                return new DayFragment("יום לא ידוע");
+                return new DayFragment("יום לא ידוע",userId);
         }
     }
 

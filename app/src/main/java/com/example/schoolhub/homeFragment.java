@@ -1,6 +1,7 @@
 package com.example.schoolhub;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,10 +16,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.schoolhub.Login.SharedViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+
+import java.util.Objects;
 
 
 public class homeFragment extends Fragment {
@@ -29,15 +33,40 @@ public class homeFragment extends Fragment {
 
     FirebaseFirestore db;
     String firstName;
+    private SharedViewModel sharedViewModel;
 
+
+    @SuppressLint("SetTextI18n")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
     }
 
-
+    private void fetchUserName() {
+        user = auth.getCurrentUser();
+        if (user != null) {
+            String userId = user.getUid();
+            db.collection("users").document(userId).get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            String firstName = documentSnapshot.getString("firstName");
+                            Welcome_back_Tv.setText("Welcome back " + firstName);
+                            sharedViewModel.setFirstName(firstName);
+                        } else {
+                            Toast.makeText(getActivity(), "User data not found", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(getActivity(), "Failed to fetch user details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Toast.makeText(getActivity(), "User is not authenticated", Toast.LENGTH_SHORT).show();
+        }
+    }
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,16 +74,10 @@ public class homeFragment extends Fragment {
 
         // אתחול TextView
         Welcome_back_Tv = view.findViewById(R.id.Welcome_back_Tv);
+        fetchUserName();
 
         // בדיקה אם הרשת מופעלת
-        db.enableNetwork()
-                .addOnSuccessListener(aVoid -> {
-                    // קריאה לפונקציה לשליפת נתוני המשתמש
-                    fetchUserName();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getActivity(), "Failed to enable network: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+
 
         return view;
     }
@@ -65,29 +88,30 @@ public class homeFragment extends Fragment {
 
     }
 
-    private void fetchUserName() {
-        // בדיקה אם המשתמש מחובר
-        String userId = auth.getUid();
-        if (userId == null) {
-            Toast.makeText(getActivity(), "User is not authenticated", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // שליפת נתונים מ-Firestore
-        db.collection("users").document(userId).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        // שליפת השם הפרטי
-                        String firstName = documentSnapshot.getString("firstName");
-                        Welcome_back_Tv.setText("Welcome back " + firstName);
-                    } else {
-                        Toast.makeText(getActivity(), "User data not found", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getActivity(), "Failed to fetch user details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.e("HomeFragment", "Failed to fetch user details", e);
-                });
-    }
+//    private void fetchUserName() {
+//        // בדיקה אם המשתמש מחובר
+//        String userId = auth.getUid();
+//        if (userId == null) {
+//            Toast.makeText(getActivity(), "User is not authenticated", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//
+//        // שליפת נתונים מ-Firestore
+//        db.collection("users").document(userId).get()
+//                .addOnSuccessListener(documentSnapshot -> {
+//                    if (documentSnapshot.exists()) {
+//                        // שליפת השם הפרטי
+//                        String firstName = documentSnapshot.getString("firstName");
+//                        Welcome_back_Tv.setText("Welcome back " + firstName);
+//                    } else {
+//                        Toast.makeText(getActivity(), "User data not found", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .addOnFailureListener(e -> {
+//                    Toast.makeText(getActivity(), "Failed to fetch user details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    Log.e("HomeFragment", "Failed to fetch user details", e);
+//                });
+//    }
 
 }

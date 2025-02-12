@@ -38,12 +38,17 @@ public class AddClassDialogFragment extends DialogFragment {
     private RadioGroup daysGroup;
     private String selectedDay = "", StartTime, EndTime;
     private String selectedColor = "#1A6392"; // Default color
+    private final String userId; // Add this field
+
     private TextView previewLessonName, previewTeacherName, previewRoomNum, tvTimeDisplay;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
+    }
+    public AddClassDialogFragment(String userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -74,7 +79,7 @@ public class AddClassDialogFragment extends DialogFragment {
             }
 
             Teacher teacher = new Teacher(teacherName);
-            Lesson newLesson = new Lesson(className, teacher, roomNum, selectedDay, startTime, endTime, selectedColor);
+            Lesson newLesson = new Lesson(className, teacher, roomNum, selectedDay, startTime, endTime, selectedColor,userId);
 
             lessonViewModel.addLesson(newLesson, new LessonRepository.OnLessonAddedListener() {
                 @Override

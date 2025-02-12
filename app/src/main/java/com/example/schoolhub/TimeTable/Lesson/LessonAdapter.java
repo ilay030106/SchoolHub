@@ -1,5 +1,6 @@
 package com.example.schoolhub.TimeTable.Lesson;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         return new LessonViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull LessonViewHolder holder, int position) {
         Lesson lesson = lessons.get(position);

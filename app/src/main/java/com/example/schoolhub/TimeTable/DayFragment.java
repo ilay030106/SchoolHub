@@ -28,15 +28,17 @@ import java.util.List;
 public class DayFragment extends Fragment {
 
     private final String dayName;
+    private final String userId; // Add this field
+
     RecyclerView LessonsList;
 
     private LessonAdapter lessonAdapter;
 
 
-    public DayFragment(String dayName) {
+    public DayFragment(String dayName, String userId) { // Update constructor
         this.dayName = dayName;
+        this.userId = userId;
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,7 +58,7 @@ public class DayFragment extends Fragment {
     private void loadLessons() {
         LessonRepository lessonRepository = new LessonRepository();
 
-        lessonRepository.getLessonsByDay(dayName, new LessonRepository.OnFetchLessonsListener() {
+        lessonRepository.getLessonsByDay(dayName, userId, new LessonRepository.OnFetchLessonsListener() {
             @Override
             public void onFetch(List<Lesson> lessons) {
                 lessonAdapter = new LessonAdapter(lessons);

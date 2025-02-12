@@ -10,6 +10,7 @@ public class Lesson {
     private String startTime; // במקום Time
     private String endTime;   // במקום Time
     private String color;
+    private String userId; // Add this field
 
 
     // בנאי ריק (נדרש על ידי Firestore)
@@ -17,7 +18,7 @@ public class Lesson {
     }
 
     // בנאי מלא
-    public Lesson(String name, Teacher teacher, String roomNum, String day, String startTime, String endTime, String color) {
+    public Lesson(String name, Teacher teacher, String roomNum, String day, String startTime, String endTime, String color, String userId) {
         this.name = name;
         this.teacher = teacher;
         this.roomNum = roomNum;
@@ -25,6 +26,8 @@ public class Lesson {
         this.startTime = startTime;
         this.endTime = endTime;
         this.color = color;
+        this.userId = userId;
+
     }
 
     // Getters ו-Setters
@@ -91,4 +94,12 @@ public class Lesson {
     public void setId(String id) {
         this.id = id;
     }
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
 }

@@ -26,21 +26,22 @@ public class LessonRepository {
                 .addOnFailureListener(listener::onFailure);
     }
 
-    public void getLessonsByDay(String day, OnFetchLessonsListener listener) {
+
+    public void getLessonsByDay(String day, String userId, OnFetchLessonsListener listener) {
         lessonsRef.whereEqualTo("day", day)
+                .whereEqualTo("userId", userId) // Filter by userId
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<Lesson> lessons = new ArrayList<>();
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         Lesson lesson = doc.toObject(Lesson.class);
-                        lesson.setId(doc.getId()); // Set the document ID
+                        lesson.setId(doc.getId());
                         lessons.add(lesson);
                     }
                     listener.onFetch(lessons);
                 })
                 .addOnFailureListener(listener::onFailure);
     }
-
 
 
     // בדיקת חפיפה
