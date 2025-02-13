@@ -1,4 +1,4 @@
-package com.example.schoolhub.TimeTable.Lesson;
+package com.example.schoolhub.data.local.model.TimeTable;
 
 public class Teacher {
     private String name;

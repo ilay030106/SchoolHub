@@ -1,14 +1,17 @@
-package com.example.schoolhub.TimeTable.Lesson;
+package com.example.schoolhub.ui.ViewModel.TimeTable;
 
-import android.os.Build;
+import android.app.Application;
+import androidx.lifecycle.AndroidViewModel;
 
-import androidx.lifecycle.ViewModel;
+import com.example.schoolhub.data.local.model.TimeTable.Lesson;
+import com.example.schoolhub.data.repository.TimeTable.LessonRepository;
 
-public class LessonViewModel extends ViewModel {
+public class LessonViewModel extends AndroidViewModel {
     private final LessonRepository repository;
 
-    public LessonViewModel() {
-        repository = new LessonRepository();
+    public LessonViewModel(Application application) {
+        super(application);
+        repository = new LessonRepository(application);
     }
 
     public void addLesson(Lesson lesson, LessonRepository.OnLessonAddedListener listener) {
@@ -30,8 +33,6 @@ public class LessonViewModel extends ViewModel {
     }
 
     public void fetchSuggestions(String field, LessonRepository.OnFetchSuggestionsListener listener) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            repository.fetchSuggestions(field, listener);
-        }
+        repository.fetchSuggestions(field, listener);
     }
 }

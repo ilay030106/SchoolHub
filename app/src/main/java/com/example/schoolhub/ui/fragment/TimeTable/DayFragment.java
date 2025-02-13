@@ -1,4 +1,4 @@
-package com.example.schoolhub.TimeTable;
+package com.example.schoolhub.ui.fragment.TimeTable;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -18,9 +18,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.schoolhub.TimeTable.Lesson.Lesson;
-import com.example.schoolhub.TimeTable.Lesson.LessonAdapter;
-import com.example.schoolhub.TimeTable.Lesson.LessonRepository;
+import com.example.schoolhub.data.local.model.TimeTable.Lesson;
+import com.example.schoolhub.ui.adapter.TimeTable.LessonAdapter;
+import com.example.schoolhub.data.repository.TimeTable.LessonRepository;
 import com.example.schoolhub.R;
 
 import java.util.List;
@@ -28,27 +28,22 @@ import java.util.List;
 public class DayFragment extends Fragment {
 
     private final String dayName;
-    private final String userId; // Add this field
-
-    RecyclerView LessonsList;
-
+    private RecyclerView lessonsList;
     private LessonAdapter lessonAdapter;
 
-
-    public DayFragment(String dayName, String userId) { // Update constructor
+    public DayFragment(String dayName) {
         this.dayName = dayName;
-        this.userId = userId;
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_day, container, false);
         TextView textView = view.findViewById(R.id.day_title);
-        LessonsList = view.findViewById(R.id.LessonsList);
+        lessonsList = view.findViewById(R.id.LessonsList);
 
         textView.setText(dayName);
-        LessonsList = view.findViewById(R.id.LessonsList);
-        LessonsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        lessonsList.setLayoutManager(new LinearLayoutManager(getContext()));
         loadLessons();
         setupSwipeToDelete();
 
@@ -56,19 +51,18 @@ public class DayFragment extends Fragment {
     }
 
     private void loadLessons() {
-        LessonRepository lessonRepository = new LessonRepository();
+        LessonRepository lessonRepository = new LessonRepository(requireContext());
 
-        lessonRepository.getLessonsByDay(dayName, userId, new LessonRepository.OnFetchLessonsListener() {
+        lessonRepository.getLessonsByDay(dayName, new LessonRepository.OnFetchLessonsListener() {
             @Override
             public void onFetch(List<Lesson> lessons) {
                 lessonAdapter = new LessonAdapter(lessons);
-                LessonsList.setAdapter(lessonAdapter);
+                lessonsList.setAdapter(lessonAdapter);
                 setupSwipeToDelete();
             }
 
             @Override
             public void onFailure(Exception e) {
-                // טיפול בשגיאה
                 e.printStackTrace();
             }
         });
@@ -78,7 +72,6 @@ public class DayFragment extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                // Drag-and-drop is not used here
                 return false;
             }
 
@@ -87,7 +80,6 @@ public class DayFragment extends Fragment {
                 int position = viewHolder.getAdapterPosition();
                 Lesson lessonToDelete = lessonAdapter.getLessons().get(position);
 
-                // Remove the lesson from Firestore and RecyclerView
                 deleteLessonFromFirestore(lessonToDelete);
                 lessonAdapter.getLessons().remove(position);
                 lessonAdapter.notifyItemRemoved(position);
@@ -97,9 +89,8 @@ public class DayFragment extends Fragment {
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
                                     @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY,
                                     int actionState, boolean isCurrentlyActive) {
-                // Customize background during swipe (optional)
                 Paint paint = new Paint();
-                paint.setColor(Color.RED); // Set the background color
+                paint.setColor(Color.RED);
                 RectF background = new RectF(viewHolder.itemView.getRight() + dX, viewHolder.itemView.getTop(),
                         viewHolder.itemView.getRight(), viewHolder.itemView.getBottom());
                 c.drawRect(background, paint);
@@ -108,12 +99,11 @@ public class DayFragment extends Fragment {
             }
         });
 
-        // Attach the ItemTouchHelper to the RecyclerView
-        itemTouchHelper.attachToRecyclerView(LessonsList);
+        itemTouchHelper.attachToRecyclerView(lessonsList);
     }
 
     private void deleteLessonFromFirestore(Lesson lesson) {
-        LessonRepository lessonRepository = new LessonRepository();
+        LessonRepository lessonRepository = new LessonRepository(requireContext());
 
         lessonRepository.deleteLesson(lesson.getId(), new LessonRepository.OnLessonDeletedListener() {
             @Override
@@ -127,7 +117,4 @@ public class DayFragment extends Fragment {
             }
         });
     }
-
-
-
 }

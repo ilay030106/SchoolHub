@@ -9,7 +9,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.schoolhub.Login.LoginScreen;
-import com.example.schoolhub.TimeTable.TimeTableFragment;
+import com.example.schoolhub.ui.fragment.TimeTable.TimeTableFragment;
+import com.example.schoolhub.ui.fragment.Home.homeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {

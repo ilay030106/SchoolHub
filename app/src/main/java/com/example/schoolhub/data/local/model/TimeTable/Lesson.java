@@ -1,24 +1,33 @@
-package com.example.schoolhub.TimeTable.Lesson;
+package com.example.schoolhub.data.local.model.TimeTable;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.example.schoolhub.data.local.Database.TimeTable.TeacherConverter;
+import com.google.firebase.firestore.Exclude;
+
+@Entity(tableName = "lessons")
 public class Lesson {
-    private String id; // Firestore document ID
-
+    @PrimaryKey
+    @NonNull
+    private String id;
     private String name;
+    @TypeConverters(TeacherConverter.class)
     private Teacher teacher;
     private String roomNum;
     private String day;
-    private String startTime; // במקום Time
-    private String endTime;   // במקום Time
+    private String startTime;
+    private String endTime;
     private String color;
-    private String userId; // Add this field
 
-
-    // בנאי ריק (נדרש על ידי Firestore)
+    // Empty constructor required for Firestore
     public Lesson() {
     }
 
-    // בנאי מלא
-    public Lesson(String name, Teacher teacher, String roomNum, String day, String startTime, String endTime, String color, String userId) {
+    // Full constructor
+    public Lesson(String name, Teacher teacher, String roomNum, String day, String startTime, String endTime, String color) {
         this.name = name;
         this.teacher = teacher;
         this.roomNum = roomNum;
@@ -26,11 +35,18 @@ public class Lesson {
         this.startTime = startTime;
         this.endTime = endTime;
         this.color = color;
-        this.userId = userId;
-
     }
 
-    // Getters ו-Setters
+    // Getters and Setters
+    @Exclude
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -45,6 +61,14 @@ public class Lesson {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    public String getRoomNum() {
+        return roomNum;
+    }
+
+    public void setRoomNum(String roomNum) {
+        this.roomNum = roomNum;
     }
 
     public String getDay() {
@@ -78,28 +102,4 @@ public class Lesson {
     public void setColor(String color) {
         this.color = color;
     }
-
-    public String getRoomNum() {
-        return roomNum;
-    }
-
-    public void setRoomNum(String roomNum) {
-        this.roomNum = roomNum;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
 }

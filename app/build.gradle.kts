@@ -54,7 +54,9 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)
-
+    implementation (libs.room.runtime)
+    annotationProcessor(libs.room.compiler)
+    implementation(libs.gson)
 
     // Miscellaneous
     implementation(libs.annotation)

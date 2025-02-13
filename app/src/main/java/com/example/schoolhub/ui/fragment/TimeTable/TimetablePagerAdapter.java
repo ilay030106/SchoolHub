@@ -1,14 +1,12 @@
-package com.example.schoolhub.TimeTable;
+package com.example.schoolhub.ui.fragment.TimeTable;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class TimetablePagerAdapter extends FragmentStateAdapter {
-    private final String userId;
-    public TimetablePagerAdapter(@NonNull Fragment fragment,String userId) {
+    public TimetablePagerAdapter(@NonNull Fragment fragment) {
         super(fragment);
-        this.userId = userId;
     }
 
     @NonNull
@@ -16,17 +14,17 @@ public class TimetablePagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new DayFragment("ראשון",userId);
+                return new DayFragment("ראשון");
             case 1:
-                return new DayFragment("שני",userId);
+                return new DayFragment("שני");
             case 2:
-                return new DayFragment("שלישי",userId);
+                return new DayFragment("שלישי");
             case 3:
-                return new DayFragment("רביעי",userId);
+                return new DayFragment("רביעי");
             case 4:
-                return new DayFragment("חמישי",userId);
+                return new DayFragment("חמישי");
             default:
-                return new DayFragment("יום לא ידוע",userId);
+                return new DayFragment("יום לא ידוע");
         }
     }
 

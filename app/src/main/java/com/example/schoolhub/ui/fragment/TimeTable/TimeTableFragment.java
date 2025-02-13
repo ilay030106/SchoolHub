@@ -1,4 +1,4 @@
-package com.example.schoolhub.TimeTable;
+package com.example.schoolhub.ui.fragment.TimeTable;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -10,10 +10,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.schoolhub.Login.SharedViewModel;
 import com.example.schoolhub.R;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -27,12 +25,10 @@ public class TimeTableFragment extends Fragment {
     ViewPager2 viewPager;
     TimetablePagerAdapter adapter;
     ExtendedFloatingActionButton addLessonFab;
-    private SharedViewModel sharedViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
     }
 
     @Override
@@ -48,7 +44,7 @@ public class TimeTableFragment extends Fragment {
         // Set up adapter and ViewPager
         sharedViewModel.getUserID().observe(getViewLifecycleOwner(), userId -> {
             // Set up adapter and ViewPager with the userId
-            adapter = new TimetablePagerAdapter(this, userId);
+            adapter = new TimetablePagerAdapter(this);
             viewPager.setAdapter(adapter);
 
             // Attach TabLayout with ViewPager2

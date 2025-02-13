@@ -1,4 +1,4 @@
-package com.example.schoolhub.TimeTable;
+package com.example.schoolhub.ui.fragment.TimeTable;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,10 +18,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.schoolhub.TimeTable.Lesson.Lesson;
-import com.example.schoolhub.TimeTable.Lesson.LessonRepository;
-import com.example.schoolhub.TimeTable.Lesson.LessonViewModel;
-import com.example.schoolhub.TimeTable.Lesson.Teacher;
+import com.example.schoolhub.data.local.model.TimeTable.Lesson;
+import com.example.schoolhub.data.repository.TimeTable.LessonRepository;
+import com.example.schoolhub.ui.ViewModel.TimeTable.LessonViewModel;
+import com.example.schoolhub.data.local.model.TimeTable.Teacher;
 import com.example.schoolhub.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -38,7 +38,6 @@ public class AddClassDialogFragment extends DialogFragment {
     private RadioGroup daysGroup;
     private String selectedDay = "", StartTime, EndTime;
     private String selectedColor = "#1A6392"; // Default color
-    private final String userId; // Add this field
 
     private TextView previewLessonName, previewTeacherName, previewRoomNum, tvTimeDisplay;
 
@@ -46,9 +45,6 @@ public class AddClassDialogFragment extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
-    }
-    public AddClassDialogFragment(String userId) {
-        this.userId = userId;
     }
 
     @Override
@@ -79,7 +75,7 @@ public class AddClassDialogFragment extends DialogFragment {
             }
 
             Teacher teacher = new Teacher(teacherName);
-            Lesson newLesson = new Lesson(className, teacher, roomNum, selectedDay, startTime, endTime, selectedColor,userId);
+            Lesson newLesson = new Lesson(className, teacher, roomNum, selectedDay, startTime, endTime, selectedColor);
 
             lessonViewModel.addLesson(newLesson, new LessonRepository.OnLessonAddedListener() {
                 @Override

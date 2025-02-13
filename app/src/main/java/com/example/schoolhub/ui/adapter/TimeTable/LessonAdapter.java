@@ -1,4 +1,4 @@
-package com.example.schoolhub.TimeTable.Lesson;
+package com.example.schoolhub.ui.adapter.TimeTable;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.schoolhub.R;
+import com.example.schoolhub.data.local.model.TimeTable.Lesson;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
@@ -20,10 +21,6 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
 
     public LessonAdapter(List<Lesson> lessons) {
         this.lessons = lessons;
-    }
-
-    public List<Lesson> getLessons() {
-        return lessons;
     }
 
     @NonNull
@@ -39,14 +36,8 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         Lesson lesson = lessons.get(position);
         holder.lessonName.setText(lesson.getName());
         holder.teacherName.setText(lesson.getTeacher().getName());
-        holder.tv_roomNum.setText(lesson.getRoomNum());
-        holder.timeRange.setText(lesson.getStartTime() + " - " + lesson.getEndTime());
-        holder.btn_lesson_tasks.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
-                android.graphics.Color.parseColor(lesson.getColor())));
-        holder.lessonName.setTextColor(android.graphics.Color.parseColor(lesson.getColor()));
-        holder.btn_lesson_tasks.setOnClickListener(view -> {
-
-        });
+        holder.roomNum.setText(lesson.getRoomNum());
+        holder.time.setText(lesson.getStartTime() + " - " + lesson.getEndTime());
     }
 
     @Override
@@ -54,17 +45,20 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         return lessons.size();
     }
 
-    static class LessonViewHolder extends RecyclerView.ViewHolder {
-        TextView lessonName, teacherName, timeRange, tv_roomNum;
-        MaterialButton btn_lesson_tasks;
+    public List<Lesson> getLessons() {
+        return lessons;
+    }
 
+    static class LessonViewHolder extends RecyclerView.ViewHolder {
+        TextView lessonName, teacherName, roomNum, time;
+        MaterialButton btn_lesson_tasks;
 
         public LessonViewHolder(@NonNull View itemView) {
             super(itemView);
             lessonName = itemView.findViewById(R.id.tv_lessonName);
             teacherName = itemView.findViewById(R.id.tv_teacherName);
-            tv_roomNum = itemView.findViewById(R.id.tv_roomNum);
-            timeRange = itemView.findViewById(R.id.tvTimeDisplay);
+            roomNum = itemView.findViewById(R.id.tv_roomNum);
+            time = itemView.findViewById(R.id.tvTimeDisplay);
             btn_lesson_tasks = itemView.findViewById(R.id.btn_lesson_tasks);
         }
     }

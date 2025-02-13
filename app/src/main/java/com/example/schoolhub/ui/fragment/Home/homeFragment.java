@@ -1,28 +1,22 @@
-package com.example.schoolhub;
+package com.example.schoolhub.ui.fragment.Home;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.schoolhub.Login.SharedViewModel;
+import com.example.schoolhub.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
-
-import java.util.Objects;
 
 
 public class homeFragment extends Fragment {
@@ -33,7 +27,6 @@ public class homeFragment extends Fragment {
 
     FirebaseFirestore db;
     String firstName;
-    private SharedViewModel sharedViewModel;
 
 
     @SuppressLint("SetTextI18n")
@@ -43,7 +36,6 @@ public class homeFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
     }
 
     private void fetchUserName() {
@@ -55,7 +47,6 @@ public class homeFragment extends Fragment {
                         if (documentSnapshot.exists()) {
                             String firstName = documentSnapshot.getString("firstName");
                             Welcome_back_Tv.setText("Welcome back " + firstName);
-                            sharedViewModel.setFirstName(firstName);
                         } else {
                             Toast.makeText(getActivity(), "User data not found", Toast.LENGTH_SHORT).show();
                         }
