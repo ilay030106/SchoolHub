@@ -8,21 +8,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.schoolhub.data.local.Database.TimeTable.LessonsOpenHelper;
 import com.example.schoolhub.data.local.model.TimeTable.Lesson;
 import com.example.schoolhub.ui.ViewModel.TimeTable.LessonViewModel;
 import com.example.schoolhub.data.local.model.TimeTable.Teacher;
 import com.example.schoolhub.R;
+import com.example.schoolhub.ui.adapter.TimeTable.ColorAdapter;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
@@ -30,6 +37,8 @@ import com.google.android.material.timepicker.TimeFormat;
 public class AddClassDialogFragment extends DialogFragment {
 
     private MaterialAutoCompleteTextView classInput, teacherInput, ClassNumberInput;
+
+    private ImageButton closeBtn;
     private MaterialButton startTimeButton, endTimeButton, addButton, colorPickerButton, btn_lesson_tasks;
     private RadioGroup daysGroup;
     private String selectedDay = "", StartTime, EndTime;
@@ -37,10 +46,22 @@ public class AddClassDialogFragment extends DialogFragment {
 
     private TextView previewLessonName, previewTeacherName, previewRoomNum, tvTimeDisplay;
 
+    LessonsOpenHelper loh;
+
+    private static final String[] PASTEL_COLORS = {
+            "#AEC6CF", // Pastel Blue
+            "#77DD77", // Pastel Green
+            "#F49AC2", // Pastel Pink
+            "#FFB347", // Pastel Orange
+            "#B39EB5", // Pastel Purple
+            "#FF6961"  // Light Red
+    };
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
+        loh =LessonsOpenHelper.getInstance(getContext());
     }
 
     @Override
@@ -69,12 +90,39 @@ public class AddClassDialogFragment extends DialogFragment {
                 Toast.makeText(getContext(), "נא למלא את כל השדות", Toast.LENGTH_SHORT).show();
                 return;
             }
-
+            loh.open();
             Teacher teacher = new Teacher(teacherName);
             Lesson newLesson = new Lesson(className, teacher, roomNum, selectedDay, startTime, endTime, selectedColor);
-
+            if (!loh.isLessonOverlapping(newLesson)) {
+                loh.createLesson(newLesson);
+                loh.close();
+                Snackbar snackbar = Snackbar.make(view, "שיעור נוסף בהצלחה", Snackbar.LENGTH_LONG);
+                snackbar.setAction("בטל", v1 -> {
+                   loh.open();
+                   loh.deleteLessonById(newLesson.getId());
+                   loh.close();
+                });
+                snackbar.show();
+                dismiss();
+            } else {
+                Toast.makeText(getContext(), "שיעור חופף עם שיעור קיים", Toast.LENGTH_SHORT).show();
+            }
 
         });
+        closeBtn.setOnClickListener(v ->{
+            if(areFieldsNotEmpty()){
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
+                builder.setTitle("האם אתה בטוח שברצונך לצאת?").setPositiveButton("כן", (dialog, which) -> {
+                    dismiss();
+                }).setNegativeButton("לא", (dialog, which) -> {
+                    dialog.dismiss();
+                }).show();
+            }
+            else {
+                dismiss();
+            }
+
+        } );
 
         return view;
     }
@@ -97,7 +145,7 @@ public class AddClassDialogFragment extends DialogFragment {
         addButton = view.findViewById(R.id.addButton);
         colorPickerButton = view.findViewById(R.id.colorPickerButton);
         daysGroup = view.findViewById(R.id.daysRadioGroup);
-
+        closeBtn = view.findViewById(R.id.closeBtn);
         // Preview UI
         previewLessonName = view.findViewById(R.id.tv_lessonName);
         btn_lesson_tasks = view.findViewById(R.id.btn_lesson_tasks);
@@ -106,7 +154,18 @@ public class AddClassDialogFragment extends DialogFragment {
         tvTimeDisplay = view.findViewById(R.id.tvTimeDisplay);
     }
 
+    private boolean areFieldsNotEmpty() {
+        return !classInput.getText().toString().isEmpty() ||
+               !teacherInput.getText().toString().isEmpty() ||
+               !ClassNumberInput.getText().toString().isEmpty() ||
+               !startTimeButton.getText().toString().isEmpty() ||
+               !endTimeButton.getText().toString().isEmpty()||
+                !selectedDay.isEmpty();
+
+    }
+
     private void setupDynamicPreview() {
+        StringBuilder time = new StringBuilder();
         // Update Preview based on Input
         classInput.addTextChangedListener(new SimpleTextWatcher() {
             @Override
@@ -142,7 +201,7 @@ public class AddClassDialogFragment extends DialogFragment {
             picker.addOnPositiveButtonClickListener(view -> {
                 StartTime = String.format("%02d:%02d", picker.getHour(), picker.getMinute());
                 startTimeButton.setText(StartTime);
-                tvTimeDisplay.setText(StartTime + " - ");
+                tvTimeDisplay.setText(time.append(" - ").append(StartTime).toString());
             });
         });
 
@@ -157,9 +216,11 @@ public class AddClassDialogFragment extends DialogFragment {
             picker.show(getParentFragmentManager(), "endTimePicker");
 
             picker.addOnPositiveButtonClickListener(view -> {
+
                 EndTime = String.format("%02d:%02d", picker.getHour(), picker.getMinute());
                 endTimeButton.setText(EndTime);
-                tvTimeDisplay.setText(tvTimeDisplay.getText() + EndTime);
+                time.insert(0, EndTime);
+                tvTimeDisplay.setText(time.toString());
             });
         });
     }
@@ -175,24 +236,49 @@ public class AddClassDialogFragment extends DialogFragment {
 
     private void setupColorPicker() {
         colorPickerButton.setOnClickListener(v -> {
-            String[] colors = {"#FF5733", "#33FF57", "#3357FF", "#FFD700"};
+            // הכנה של AlertDialog (בלי כפתורי OK/Cancel אוטומטיים)
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
+            final AlertDialog dialog = builder.create();
 
-            new MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("בחר צבע")
-                    .setItems(colors, (dialog, which) -> {
-                        selectedColor = colors[which];
-                        btn_lesson_tasks.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
-                                android.graphics.Color.parseColor(selectedColor)));
-                        previewLessonName.setTextColor(android.graphics.Color.parseColor(selectedColor));
-                    })
-                    .show();
+            // טוענים את ה-Layout של הגריד
+            LayoutInflater inflater = LayoutInflater.from(requireContext());
+            View dialogView = inflater.inflate(R.layout.dialog_color_picker, null);
+
+            // מוצאים את ה-RecyclerView ומגדירים LayoutManager כגריד של 3 עמודות
+            RecyclerView recyclerView = dialogView.findViewById(R.id.recyclerColorPicker);
+            recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+
+            // יוצרים Adapter עם מערך הצבעים הפסטליים שלנו
+            ColorAdapter adapter = new ColorAdapter(PASTEL_COLORS, colorHex -> {
+                // המשתמש בחר צבע בגריד
+                selectedColor = colorHex;
+
+                // עדכון ה-UI לפריוויו:
+                btn_lesson_tasks.setBackgroundTintList(
+                        android.content.res.ColorStateList.valueOf(
+                                android.graphics.Color.parseColor(selectedColor)
+                        )
+                );
+                previewLessonName.setTextColor(
+                        android.graphics.Color.parseColor(selectedColor)
+                );
+
+                // סגירת הדיאלוג לאחר הבחירה
+                dialog.dismiss();
+            });
+
+            recyclerView.setAdapter(adapter);
+
+            // מציבים את ה-View
+            dialog.setView(dialogView);
+            dialog.show();
         });
     }
+
 
     private void setupAutoComplete(LessonViewModel viewModel) {
 
 
-        // Repeat for teacherInput
 
     }
 

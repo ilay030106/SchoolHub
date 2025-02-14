@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LessonsOpenHelper extends SQLiteOpenHelper {
+    private static LessonsOpenHelper instance;
+
     public static final String DATABASENAME = "LessonsDB";//שם מסד נתונים
     public static final String TABLE_LESSONS = "lessons";//שם הטבלה
     public static final String TABLE_TEACHERS = "teachers";//שם הטבלה
@@ -49,8 +51,14 @@ public class LessonsOpenHelper extends SQLiteOpenHelper {
 
     SQLiteDatabase database;
 
-    public LessonsOpenHelper(Context context) {//פעולה בונה
+    private LessonsOpenHelper(Context context) {//פעולה בונה
         super(context, DATABASENAME, null, DATABASEVERSION);
+    }
+    public static synchronized LessonsOpenHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new LessonsOpenHelper(context.getApplicationContext());
+        }
+        return instance;
     }
 
     @Override
@@ -71,7 +79,7 @@ public class LessonsOpenHelper extends SQLiteOpenHelper {
         Log.i("data", "Database connection open");
     }
 
-    public Lesson createLesson(Lesson lesson) {// DB
+    public void createLesson(Lesson lesson) {// DB
         ContentValues values = new ContentValues();
         values.put(COLUMN_CLASS_NAME, lesson.getName());
         values.put(COLUMN_TEACHER_NAME, lesson.getTeacher().getName());
@@ -89,7 +97,6 @@ public class LessonsOpenHelper extends SQLiteOpenHelper {
         long insertId = database.insert(LessonsOpenHelper.TABLE_LESSONS, null, values);
         Log.i("data", "Lesson " + insertId + "insert to database");
         lesson.setId(insertId);
-        return lesson;
     }
 
     public Lesson updateLesson(Lesson lesson) {// DB

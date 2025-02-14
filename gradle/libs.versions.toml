@@ -22,6 +22,7 @@ annotation = "1.9.1"
 recyclerviewSwipedecorator = "1.3"
 roomCompiler = "2.6.1"
 roomRuntime = "2.6.1"
+swipeRevealLayout = "1.4.1"
 xcomMaterial = "1.9.0"
 gson = "2.8.9"
 
@@ -51,6 +52,7 @@ annotation = { group = "androidx.annotation", name = "annotation", version.ref =
 recyclerview-swipedecorator = { module = "it.xabaras.android:recyclerview-swipedecorator", version.ref = "recyclerviewSwipedecorator" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+swipe-reveal-layout = { module = "com.chauthai.swipereveallayout:swipe-reveal-layout", version.ref = "swipeRevealLayout" }
 xcom-google-android-material-material = { module = "com.google.android.material:material", version.ref = "xcomMaterial" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 [plugins]

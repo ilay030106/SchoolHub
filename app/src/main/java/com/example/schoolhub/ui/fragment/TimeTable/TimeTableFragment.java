@@ -42,47 +42,37 @@ public class TimeTableFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         // Set up adapter and ViewPager
-        sharedViewModel.getUserID().observe(getViewLifecycleOwner(), userId -> {
-            // Set up adapter and ViewPager with the userId
-            adapter = new TimetablePagerAdapter(this);
-            viewPager.setAdapter(adapter);
+        adapter = new TimetablePagerAdapter(this);
+        viewPager.setAdapter(adapter);
 
-            // Attach TabLayout with ViewPager2
-            new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-                @SuppressLint("InflateParams") TextView customTab = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.custom_tab, null);
-                switch (position) {
-                    case 0:
-                        customTab.setText("ראשון");
-                        break;
-                    case 1:
-                        customTab.setText("שני");
-                        break;
-                    case 2:
-                        customTab.setText("שלישי");
-                        break;
-                    case 3:
-                        customTab.setText("רביעי");
-                        break;
-                    case 4:
-                        customTab.setText("חמישי");
-                        break;
-                }
-                tab.setCustomView(customTab);
-            }).attach();
-        });
+        // Attach TabLayout with ViewPager2
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            @SuppressLint("InflateParams") TextView customTab = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.custom_tab, null);
+            switch (position) {
+                case 0:
+                    customTab.setText("ראשון");
+                    break;
+                case 1:
+                    customTab.setText("שני");
+                    break;
+                case 2:
+                    customTab.setText("שלישי");
+                    break;
+                case 3:
+                    customTab.setText("רביעי");
+                    break;
+                case 4:
+                    customTab.setText("חמישי");
+                    break;
+            }
+            tab.setCustomView(customTab);
+        }).attach();
 
         // Handle FAB click to open AddClassDialogFragment
         addLessonFab.setOnClickListener(v -> {
-            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-            if (currentUser != null) {
-                String userId = currentUser.getUid();
-                FragmentManager fragmentManager = getParentFragmentManager();
-                AddClassDialogFragment dialogFragment = new AddClassDialogFragment(userId);
-                dialogFragment.show(fragmentManager, "AddClassDialogFragment");
-            } else {
-                // Handle the case where the user is not logged in
-                Toast.makeText(getContext(), "User not logged in", Toast.LENGTH_SHORT).show();
-            }
+            FragmentManager fragmentManager = getParentFragmentManager();
+            AddClassDialogFragment dialogFragment = new AddClassDialogFragment();
+            dialogFragment.show(fragmentManager, "AddClassDialogFragment");
         });
 
         return view;

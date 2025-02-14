@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.schoolhub.R;
+import com.example.schoolhub.data.local.Database.TimeTable.LessonsOpenHelper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,49 +29,25 @@ public class homeFragment extends Fragment {
     FirebaseFirestore db;
     String firstName;
 
+    LessonsOpenHelper loh;
+
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        loh=LessonsOpenHelper.getInstance(getContext());
 
     }
 
-    private void fetchUserName() {
-        user = auth.getCurrentUser();
-        if (user != null) {
-            String userId = user.getUid();
-            db.collection("users").document(userId).get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot.exists()) {
-                            String firstName = documentSnapshot.getString("firstName");
-                            Welcome_back_Tv.setText("Welcome back " + firstName);
-                        } else {
-                            Toast.makeText(getActivity(), "User data not found", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(getActivity(), "Failed to fetch user details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
-        } else {
-            Toast.makeText(getActivity(), "User is not authenticated", Toast.LENGTH_SHORT).show();
-        }
-    }
+
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        // אתחול TextView
-        Welcome_back_Tv = view.findViewById(R.id.Welcome_back_Tv);
-        fetchUserName();
-
-        // בדיקה אם הרשת מופעלת
 
 
-        return view;
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
@@ -79,30 +56,6 @@ public class homeFragment extends Fragment {
 
     }
 
-//    private void fetchUserName() {
-//        // בדיקה אם המשתמש מחובר
-//        String userId = auth.getUid();
-//        if (userId == null) {
-//            Toast.makeText(getActivity(), "User is not authenticated", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//
-//        // שליפת נתונים מ-Firestore
-//        db.collection("users").document(userId).get()
-//                .addOnSuccessListener(documentSnapshot -> {
-//                    if (documentSnapshot.exists()) {
-//                        // שליפת השם הפרטי
-//                        String firstName = documentSnapshot.getString("firstName");
-//                        Welcome_back_Tv.setText("Welcome back " + firstName);
-//                    } else {
-//                        Toast.makeText(getActivity(), "User data not found", Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                .addOnFailureListener(e -> {
-//                    Toast.makeText(getActivity(), "Failed to fetch user details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    Log.e("HomeFragment", "Failed to fetch user details", e);
-//                });
-//    }
+
 
 }

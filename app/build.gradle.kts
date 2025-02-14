@@ -1,3 +1,5 @@
+import java.util.regex.Pattern.compile
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
@@ -57,6 +59,8 @@ dependencies {
     implementation (libs.room.runtime)
     annotationProcessor(libs.room.compiler)
     implementation(libs.gson)
+    //implementation (libs.swipe.reveal.layout)
+
 
     // Miscellaneous
     implementation(libs.annotation)

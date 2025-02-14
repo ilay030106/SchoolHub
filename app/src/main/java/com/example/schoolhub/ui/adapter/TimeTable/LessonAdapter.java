@@ -34,10 +34,24 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
     @Override
     public void onBindViewHolder(@NonNull LessonViewHolder holder, int position) {
         Lesson lesson = lessons.get(position);
+        StringBuilder time = new StringBuilder();
         holder.lessonName.setText(lesson.getName());
         holder.teacherName.setText(lesson.getTeacher().getName());
         holder.roomNum.setText(lesson.getRoomNum());
-        holder.time.setText(lesson.getStartTime() + " - " + lesson.getEndTime());
+        time.append(lesson.getEndTime()).append(" - ").append(lesson.getStartTime());
+
+        holder.time.setText(time.toString());
+        holder.btn_lesson_tasks.setOnClickListener(view -> {
+            //TODO: Open tasks fragment with the wanted lesson
+        });
+        holder.btn_lesson_tasks.setBackgroundTintList(
+                android.content.res.ColorStateList.valueOf(
+                        android.graphics.Color.parseColor(lesson.getColor())
+                )
+        );
+        holder.lessonName.setTextColor(
+                android.graphics.Color.parseColor(lesson.getColor())
+        );
     }
 
     @Override

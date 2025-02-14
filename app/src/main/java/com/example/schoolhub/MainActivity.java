@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.schoolhub.Login.LoginScreen;
 import com.example.schoolhub.ui.fragment.TimeTable.TimeTableFragment;
 import com.example.schoolhub.ui.fragment.Home.homeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -38,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.AppFragmentContainer, fragment);
         fragmentTransaction.commit();
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +72,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void redirectToLogin() {
-        Intent intent = new Intent(this, LoginScreen.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
-    }
+
 }
