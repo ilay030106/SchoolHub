@@ -1,20 +1,11 @@
 package com.example.schoolhub.data.local.model.TimeTable;
 
-import androidx.annotation.NonNull;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
-
-import com.example.schoolhub.data.local.Database.TimeTable.TeacherConverter;
 import com.google.firebase.firestore.Exclude;
 
-@Entity(tableName = "lessons")
 public class Lesson {
-    @PrimaryKey
-    @NonNull
-    private String id;
+
+    private long id;
     private String name;
-    @TypeConverters(TeacherConverter.class)
     private Teacher teacher;
     private String roomNum;
     private String day;
@@ -38,12 +29,11 @@ public class Lesson {
     }
 
     // Getters and Setters
-    @Exclude
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,10 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.schoolhub.data.local.model.TimeTable.Lesson;
 import com.example.schoolhub.ui.adapter.TimeTable.LessonAdapter;
-import com.example.schoolhub.data.repository.TimeTable.LessonRepository;
 import com.example.schoolhub.R;
-
-import java.util.List;
 
 public class DayFragment extends Fragment {
 
@@ -51,21 +47,8 @@ public class DayFragment extends Fragment {
     }
 
     private void loadLessons() {
-        LessonRepository lessonRepository = new LessonRepository(requireContext());
 
-        lessonRepository.getLessonsByDay(dayName, new LessonRepository.OnFetchLessonsListener() {
-            @Override
-            public void onFetch(List<Lesson> lessons) {
-                lessonAdapter = new LessonAdapter(lessons);
-                lessonsList.setAdapter(lessonAdapter);
-                setupSwipeToDelete();
-            }
 
-            @Override
-            public void onFailure(Exception e) {
-                e.printStackTrace();
-            }
-        });
     }
 
     private void setupSwipeToDelete() {
@@ -103,18 +86,7 @@ public class DayFragment extends Fragment {
     }
 
     private void deleteLessonFromFirestore(Lesson lesson) {
-        LessonRepository lessonRepository = new LessonRepository(requireContext());
 
-        lessonRepository.deleteLesson(lesson.getId(), new LessonRepository.OnLessonDeletedListener() {
-            @Override
-            public void onSuccess() {
-                Toast.makeText(getContext(), "השיעור נמחק בהצלחה", Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onFailure(Exception e) {
-                Toast.makeText(getContext(), "שגיאה במחיקת השיעור: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

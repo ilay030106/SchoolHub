@@ -1,8 +1,11 @@
 package com.example.schoolhub.data.local.model.TimeTable;
 
 public class Teacher {
+    private long id;
     private String name;
     private String email;
+
+
 
     // בנאי ריק (נדרש על ידי Firestore)
     public Teacher() {
@@ -36,4 +39,13 @@ public class Teacher {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
 }

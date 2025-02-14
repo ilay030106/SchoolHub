@@ -13,7 +13,7 @@ public class FirestoreHelper {
     public void saveLesson(Context context, Lesson lesson) {
         String deviceId = DeviceIdManager.getDeviceId(context);
         db.collection("devices").document(deviceId)
-            .collection("lessons").document(lesson.getId())
+            .collection("lessons").document(String.valueOf(lesson.getId()))
             .set(lesson)
             .addOnSuccessListener(aVoid -> Log.d("Firestore", "Lesson saved!"))
             .addOnFailureListener(e -> Log.e("Firestore", "Error saving lesson", e));

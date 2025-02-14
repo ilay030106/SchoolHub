@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -19,7 +18,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.schoolhub.data.local.model.TimeTable.Lesson;
-import com.example.schoolhub.data.repository.TimeTable.LessonRepository;
 import com.example.schoolhub.ui.ViewModel.TimeTable.LessonViewModel;
 import com.example.schoolhub.data.local.model.TimeTable.Teacher;
 import com.example.schoolhub.R;
@@ -28,8 +26,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
-
-import java.util.List;
 
 public class AddClassDialogFragment extends DialogFragment {
 
@@ -77,18 +73,7 @@ public class AddClassDialogFragment extends DialogFragment {
             Teacher teacher = new Teacher(teacherName);
             Lesson newLesson = new Lesson(className, teacher, roomNum, selectedDay, startTime, endTime, selectedColor);
 
-            lessonViewModel.addLesson(newLesson, new LessonRepository.OnLessonAddedListener() {
-                @Override
-                public void onSuccess() {
-                    Toast.makeText(getContext(), "שיעור נוסף בהצלחה", Toast.LENGTH_SHORT).show();
-                    dismiss();
-                }
 
-                @Override
-                public void onFailure(Exception e) {
-                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
         });
 
         return view;
@@ -205,64 +190,10 @@ public class AddClassDialogFragment extends DialogFragment {
     }
 
     private void setupAutoComplete(LessonViewModel viewModel) {
-        viewModel.fetchSuggestions("name", new LessonRepository.OnFetchSuggestionsListener() {
-            @Override
-            public void onFetch(List<String> suggestions) {
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, suggestions);
-                classInput.setAdapter(adapter);
-                classInput.setThreshold(1); // Show suggestions after typing 1 character
-                classInput.setOnFocusChangeListener((view, hasFocus) -> {
-                    if (hasFocus) {
-                        classInput.showDropDown(); // Show suggestions when focused
-                    }
-                });
-            }
 
-            @Override
-            public void onFailure(Exception e) {
-                Toast.makeText(getContext(), "Failed to fetch suggestions: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
 
         // Repeat for teacherInput
-        viewModel.fetchSuggestions("teacher", new LessonRepository.OnFetchSuggestionsListener() {
-            @Override
-            public void onFetch(List<String> suggestions) {
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, suggestions);
-                teacherInput.setAdapter(adapter);
-                teacherInput.setThreshold(1); // Show suggestions after typing 1 character
-                teacherInput.setOnFocusChangeListener((view, hasFocus) -> {
-                    if (hasFocus) {
-                        teacherInput.showDropDown(); // Show suggestions when focused
-                    }
-                });
-            }
 
-            @Override
-            public void onFailure(Exception e) {
-                Toast.makeText(getContext(), "Failed to fetch suggestions: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Repeat for ClassNumberInput
-        viewModel.fetchSuggestions("roomNum", new LessonRepository.OnFetchSuggestionsListener() {
-            @Override
-            public void onFetch(List<String> suggestions) {
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, suggestions);
-                ClassNumberInput.setAdapter(adapter);
-                ClassNumberInput.setThreshold(1); // Show suggestions after typing 1 character
-                ClassNumberInput.setOnFocusChangeListener((view, hasFocus) -> {
-                    if (hasFocus) {
-                        ClassNumberInput.showDropDown(); // Show suggestions when focused
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                Toast.makeText(getContext(), "Failed to fetch suggestions: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     abstract static class SimpleTextWatcher implements TextWatcher {
