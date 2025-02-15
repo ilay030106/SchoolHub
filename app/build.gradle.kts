@@ -59,8 +59,7 @@ dependencies {
     implementation (libs.room.runtime)
     annotationProcessor(libs.room.compiler)
     implementation(libs.gson)
-    //implementation (libs.swipe.reveal.layout)
-
+    implementation(libs.library)
 
     // Miscellaneous
     implementation(libs.annotation)
@@ -70,4 +69,14 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+
+    configurations.all {
+        resolutionStrategy.eachDependency {
+            if (requested.group == "com.android.support") {
+                useVersion("28.0.0")
+            }
+        }
+    }
+
 }
