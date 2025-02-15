@@ -13,19 +13,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.schoolhub.data.local.Database.TimeTable.LessonsOpenHelper;
 import com.example.schoolhub.data.local.model.TimeTable.Lesson;
-import com.example.schoolhub.ui.adapter.PartialSwipeCallback;
 import com.example.schoolhub.ui.adapter.TimeTable.LessonAdapter;
 import com.example.schoolhub.R;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DayFragment extends Fragment {
@@ -57,6 +56,13 @@ public class DayFragment extends Fragment {
 
 
         return view;
+    }
+
+    public void refreshLessons() {
+        loh.open();
+        List<Lesson> updatedLessons = loh.getLessonsForDay(dayName);
+        lessonAdapter.updateLessons(updatedLessons);
+        loh.close();
     }
 
 

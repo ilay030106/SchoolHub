@@ -23,7 +23,7 @@ import java.util.List;
 
 public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonViewHolder> {
 
-    private final List<Lesson> lessons;
+    private List<Lesson> lessons;
     LessonsOpenHelper loh;
     Lesson lesson;
 
@@ -128,6 +128,11 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         holder.btnEdit.setOnClickListener(v -> {
             //TODO: Open edit lesson fragment
         });
+    }
+
+    public void updateLessons(List<Lesson> newLessons) {
+        this.lessons = newLessons;
+        notifyDataSetChanged();
     }
 
     @Override

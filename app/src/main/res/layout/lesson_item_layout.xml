@@ -17,7 +17,7 @@
         android:layout_width="160dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#D1C4E9"
+        android:background="@android:color/transparent"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/lightBlueSecColor"
             android:drawableLeft="@drawable/edit_icon"
-            android:text="Edit"
+            android:text=""
             android:textColor="@android:color/white" />
     </LinearLayout>
 
@@ -37,8 +37,8 @@
         android:layout_width="160dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:background="#FFCDD2"
         android:gravity="center"
+        android:background="@android:color/transparent"
         android:orientation="horizontal">
 
         <!-- Delete Button -->
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/holo_red_dark"
             android:drawableLeft="@drawable/delete_icon"
-            android:text="Delete"
+            android:text=""
             android:textColor="@android:color/white" />
     </LinearLayout>
 
@@ -57,9 +57,8 @@
         android:id="@+id/surfaceView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardview"
@@ -67,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:background="@android:color/transparent"
+            android:visibility="visible"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp"> <!-- Fixed background -->
 
