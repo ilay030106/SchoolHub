@@ -1,0 +1,207 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!-- Dropdown for Number System Selection -->
+        <Spinner
+            android:id="@+id/spinnerBase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/base_options"
+            android:prompt="Choose Base" />
+
+        <!-- Input Field -->
+        <EditText
+            android:id="@+id/etInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Number"
+            android:inputType="text" />
+
+        <!-- Output Field -->
+        <TextView
+            android:id="@+id/tvResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Result: "
+            android:textSize="24sp" />
+
+        <!-- CardView for Buttons -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp">
+
+            <!-- ViewFlipper to Switch Between Numbers & Operators -->
+            <ViewFlipper
+                android:id="@+id/viewFlipper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Page 1: Numbers and Hexadecimal -->
+                <GridLayout
+                    android:id="@+id/gridNumbers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="4"
+                    android:padding="8dp"
+                    android:useDefaultMargins="true">
+
+                    <!-- Number & Hexadecimal Buttons -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn0"
+                        style="@style/RoundButton"
+                        android:text="0" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn1"
+                        style="@style/RoundButton"
+                        android:text="1" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn2"
+                        style="@style/RoundButton"
+                        android:text="2" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn3"
+                        style="@style/RoundButton"
+                        android:text="3" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn4"
+                        style="@style/RoundButton"
+                        android:text="4" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn5"
+                        style="@style/RoundButton"
+                        android:text="5" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn6"
+                        style="@style/RoundButton"
+                        android:text="6" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn7"
+                        style="@style/RoundButton"
+                        android:text="7" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn8"
+                        style="@style/RoundButton"
+                        android:text="8" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn9"
+                        style="@style/RoundButton"
+                        android:text="9" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnA"
+                        style="@style/RoundButton"
+                        android:text="A" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnB"
+                        style="@style/RoundButton"
+                        android:text="B" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnC"
+                        style="@style/RoundButton"
+                        android:text="C" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnD"
+                        style="@style/RoundButton"
+                        android:text="D" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnE"
+                        style="@style/RoundButton"
+                        android:text="E" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnF"
+                        style="@style/RoundButton"
+                        android:text="F" />
+                </GridLayout>
+
+                <!-- Page 2: Operators -->
+                <GridLayout
+                    android:id="@+id/gridOperators"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="4"
+                    android:padding="8dp"
+                    android:useDefaultMargins="true">
+
+                    <!-- Operator Buttons -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAdd"
+                        style="@style/RoundButton"
+                        android:text="+" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSubtract"
+                        style="@style/RoundButton"
+                        android:text="-" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnMultiply"
+                        style="@style/RoundButton"
+                        android:text="*" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDivide"
+                        style="@style/RoundButton"
+                        android:text="/" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAnd"
+                        style="@style/RoundButton"
+                        android:text="&amp;" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnOr"
+                        style="@style/RoundButton"
+                        android:text="|" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnXor"
+                        style="@style/RoundButton"
+                        android:text="^" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnNot"
+                        style="@style/RoundButton"
+                        android:text="NOT" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnShiftLeft"
+                        style="@style/RoundButton"
+                        android:text="<<" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnShiftRight"
+                        style="@style/RoundButton"
+                        android:text=">>" />
+                </GridLayout>
+
+            </ViewFlipper>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</FrameLayout>
