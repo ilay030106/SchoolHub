@@ -61,8 +61,8 @@
         <item name="android:backgroundTint">@color/lightBlue</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="app:cornerRadius">28dp</item>
-        <item name="app:elevation">6dp</item>
+        <item name="cornerRadius">28dp</item>
+        <item name="elevation">6dp</item>
     </style>
 
 
