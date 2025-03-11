@@ -9,36 +9,57 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
-
-        <!-- Dropdown for Number System Selection -->
-        <Spinner
-            android:id="@+id/spinnerBase"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/base_options"
-            android:prompt="Choose Base" />
-
-        <!-- Input Field -->
-        <EditText
-            android:id="@+id/etInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Number"
-            android:inputType="text" />
-
         <!-- Output Field -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingStart="5dp"
+                android:hint="Select an option">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/bases1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/eq1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:cursorVisible="false"
+                android:ems="10"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:fontFamily="@font/varela_round_regular"
+                android:hint="הכנס מספר"
+                android:inputType="none" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/tvResult"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
             android:text="Result: "
             android:textSize="24sp" />
 
         <!-- CardView for Buttons -->
+
         <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/advModeSwtch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
             android:text="Enable Advance Mode (2 Operators)" />
 
         <com.google.android.material.card.MaterialCardView
@@ -50,6 +71,7 @@
             >
 
             <!-- ViewFlipper to Switch Between Numbers & Operators -->
+
             <ViewFlipper
                 android:id="@+id/viewFlipper"
                 android:layout_width="match_parent"
@@ -67,82 +89,82 @@
                     <!-- Number & Hexadecimal Buttons -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn0"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="0" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn1"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="1" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn2"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="2" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn3"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="3" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn4"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="4" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn5"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="5" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn6"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="6" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn7"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="7" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn8"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="8" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn9"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="9" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnA"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="A" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnB"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="B" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnC"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="C" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnD"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="D" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnE"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="E" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnF"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="F" />
                 </GridLayout>
 
@@ -158,57 +180,99 @@
                     <!-- Operator Buttons -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnAdd"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="+" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSubtract"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="-" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnMultiply"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="*" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnDivide"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="/" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnAnd"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="&amp;" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnOr"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="|" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnXor"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="^" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnNot"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="NOT" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnShiftLeft"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text="<<" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnShiftRight"
-                        style="@style/RoundButton"
+                        style="@style/RoundButtonGrid"
                         android:text=">>" />
                 </GridLayout>
 
             </ViewFlipper>
+            
         </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            android:layout_marginTop="15dp">
+
+            <LinearLayout
+                android:padding="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnClear"
+                    style="@style/RoundButton"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="C" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnConvert"
+                    style="@style/RoundButton"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Convert" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBackSpace"
+                    style="@style/RoundButton"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="⌫"
+                    android:textSize="20sp"/>
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
 
     </LinearLayout>
 </FrameLayout>

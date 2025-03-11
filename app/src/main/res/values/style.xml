@@ -54,7 +54,7 @@
         <item name="fullscreenTextColor">@color/black</item>
     </style>
 
-    <style name="RoundButton" parent="Widget.MaterialComponents.Button">
+    <style name="RoundButtonGrid" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_columnWeight">1</item>
@@ -63,6 +63,18 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="cornerRadius">28dp</item>
         <item name="elevation">6dp</item>
+    </style>
+    <style name="RoundButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:backgroundTint">@color/lightBlue</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="cornerRadius">28dp</item>
+        <item name="elevation">6dp</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:layout_marginStart">6dp</item>
+
     </style>
 
 
