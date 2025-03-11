@@ -14,28 +14,54 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2.5">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBase1"
+                style="@style/RoundButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_weight="1"
-                android:paddingStart="5dp"
-                android:hint="Select an option">
-
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/bases1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:inputType="none" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:gravity="center"
+                android:text="" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/eq1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
+                android:cursorVisible="false"
+                android:ems="10"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:fontFamily="@font/varela_round_regular"
+                android:hint="הכנס מספר"
+                android:inputType="none" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:weightSum="2">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBase2"
+                style="@style/RoundButton"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:text="Base 2" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/eq2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
                 android:cursorVisible="false"
                 android:ems="10"
                 android:focusable="true"
@@ -221,16 +247,16 @@
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnShiftLeft"
                         style="@style/RoundButtonGrid"
-                        android:text="<<" />
+                        android:text="SHL" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnShiftRight"
                         style="@style/RoundButtonGrid"
-                        android:text=">>" />
+                        android:text="SHR" />
                 </GridLayout>
 
             </ViewFlipper>
-            
+
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
@@ -242,34 +268,60 @@
             android:layout_marginTop="15dp">
 
             <LinearLayout
-                android:padding="12dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnClear"
-                    style="@style/RoundButton"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text="C" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:visibility="visible">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnConvert"
-                    style="@style/RoundButton"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text="Convert" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnClear"
+                        style="@style/RoundButton"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="C" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnBackSpace"
-                    style="@style/RoundButton"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text="⌫"
-                    android:textSize="20sp"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnConvert"
+                        style="@style/RoundButton"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="="
+                        android:textSize="20sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnBackSpace"
+                        style="@style/RoundButton"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="⌫"
+                        android:textSize="20sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnBaseRes"
+                        style="@style/RoundButton"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Bases" />
+                </LinearLayout>
+
+
             </LinearLayout>
+
 
         </com.google.android.material.card.MaterialCardView>
 

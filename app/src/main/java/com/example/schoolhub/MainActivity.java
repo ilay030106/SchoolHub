@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.schoolhub.ui.fragment.Calculator.baseCalculator;
 import com.example.schoolhub.ui.fragment.TimeTable.TimeTableFragment;
 import com.example.schoolhub.ui.fragment.Home.homeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -48,16 +49,18 @@ public class MainActivity extends AppCompatActivity {
 
         menu.setOnItemSelectedListener(item -> {
             Fragment fragment = null;
-            boolean isMovingRight = false;
+
 
             int itemId = item.getItemId();
+            boolean isMovingRight = itemId > currentMenuItemId;
             if (itemId == R.id.navigation_home) {
                 fragment = new homeFragment();
-                isMovingRight = itemId > currentMenuItemId; // Determine direction
             } else if (itemId == R.id.navigation_timetable) {
                 fragment = new TimeTableFragment();
-                isMovingRight = itemId > currentMenuItemId; // Determine direction
+            } else if (itemId == R.id.navigation_calculator) {
+                fragment = new baseCalculator();
             }
+
 
             if (fragment != null) {
                 replaceFragment(fragment, isMovingRight);
