@@ -22,5 +22,5 @@
         android:id="@+id/button_hex"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Hexadecimal" />
+        android:text="Hexa" />
 </LinearLayout>

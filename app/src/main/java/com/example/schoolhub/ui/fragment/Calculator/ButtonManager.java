@@ -64,7 +64,7 @@ public class ButtonManager {
             case "Binary":
                 predicate = button -> button.getText().toString().matches("[01]");
                 break;
-            case "Hexadecimal":
+            case "Hexa":
                 predicate = button -> button.getText().toString().matches("[0-9A-F]");
                 break;
             default:

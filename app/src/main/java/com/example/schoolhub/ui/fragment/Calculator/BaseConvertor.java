@@ -7,7 +7,7 @@ public class BaseConvertor {
             switch (base) {
                 case "Binary":
                     return Integer.parseInt(value, 2);
-                case "Hexadecimal":
+                case "Hexa":
                     return Integer.parseInt(value, 16);
                 default:
                     return Integer.parseInt(value);
@@ -21,7 +21,7 @@ public class BaseConvertor {
         switch (base) {
             case "Binary":
                 return Integer.toBinaryString(result);
-            case "Hexadecimal":
+            case "Hexa":
                 return Integer.toHexString(result);
             default:
                 return String.valueOf(result);
