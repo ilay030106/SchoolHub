@@ -23,7 +23,9 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
     protected MaterialButton btnClear, btnConvert, btnBackSpace, btnBase1, btnBase2, btnBaseRes;
     private TextView tvResult;
     private MaterialSwitch advModeSwtch;
-    private ViewPager2 viewPager; // Using ViewPager2 for swiping between grids
+    private ViewPager2 viewPager;
+    // Keep a reference to the adapter for updating the grid.
+    private GridPagerAdapter gridPagerAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize views and buttons
+        // Initialize views and buttons.
         eq1 = view.findViewById(R.id.eq1);
         eq2 = view.findViewById(R.id.eq2);
         selectedEq = eq1;
@@ -48,44 +50,44 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
         btnBaseRes = view.findViewById(R.id.btnBaseRes);
         viewPager = view.findViewById(R.id.viewPager);
 
-        // Set up base selection dialogs
+        // Set up base selection dialogs.
         ButtonManager.setUpBases(this);
 
-        // Set up clear, backspace, and convert buttons (non-grid buttons)
+        // Set up non-grid buttons.
         ButtonManager.setupButtons(this);
 
-        // Toggle visibility for the second input based on advanced mode
+        // Toggle visibility for the second input based on advanced mode.
         MaterialCardView value2CardView = view.findViewById(R.id.value2CardView);
         advModeSwtch.setOnCheckedChangeListener((compoundButton, b) -> {
             isAdvMode = b;
             value2CardView.setVisibility(b ? View.VISIBLE : View.GONE);
         });
 
-        // Change available buttons based on focused input field
+        // When focus changes, update the grid with the correct base.
         View.OnFocusChangeListener focusChangeListener = (v, hasFocus) -> {
             if (hasFocus) {
                 selectedEq = (TextInputEditText) v;
-                // Here you might want to notify the grid to update its enabled state
-                // based on the selected base (selectedBase1 or selectedBase2).
+                String base = (v == eq1) ? selectedBase1 : selectedBase2;
+                if (gridPagerAdapter != null) {
+                    gridPagerAdapter.updateGrid(base);
+                }
             }
         };
         eq1.setOnFocusChangeListener(focusChangeListener);
         eq2.setOnFocusChangeListener(focusChangeListener);
 
-        // Initialize ViewPager2 with our custom adapter.
-        // We pass a callback so that when a grid button is pressed,
-        // its text is appended to the currently selected input.
-        GridPagerAdapter adapter = new GridPagerAdapter(requireContext(), buttonText -> {
+        // Initialize ViewPager2 with the custom adapter.
+        gridPagerAdapter = new GridPagerAdapter(requireContext(), buttonText -> {
             selectedEq.append(buttonText);
         });
-        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(gridPagerAdapter);
         viewPager.setPageTransformer((page, position) -> page.setAlpha(1 - Math.abs(position)));
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        // No additional cleanup required for ViewPager2.
+        // No additional cleanup required.
     }
 
     public TextInputEditText getSelectedEq() {
@@ -106,6 +108,9 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
 
     public void setSelectedBase1(String base) {
         this.selectedBase1 = base;
+        if (selectedEq == eq1 && gridPagerAdapter != null) {
+            gridPagerAdapter.updateGrid(base);
+        }
     }
 
     public String getSelectedBase2() {
@@ -114,6 +119,9 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
 
     public void setSelectedBase2(String base) {
         this.selectedBase2 = base;
+        if (selectedEq == eq2 && gridPagerAdapter != null) {
+            gridPagerAdapter.updateGrid(base);
+        }
     }
 
     @Override
@@ -122,12 +130,16 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
             case "input1":
                 selectedBase1 = base;
                 btnBase1.setText(base);
-                // You may want to notify the grid page to update its enabled state here.
+                if (selectedEq == eq1 && gridPagerAdapter != null) {
+                    gridPagerAdapter.updateGrid(base);
+                }
                 break;
             case "input2":
                 selectedBase2 = base;
                 btnBase2.setText(base);
-                // You may want to notify the grid page to update its enabled state here.
+                if (selectedEq == eq2 && gridPagerAdapter != null) {
+                    gridPagerAdapter.updateGrid(base);
+                }
                 break;
             case "result":
                 selectedBaseResult = base;

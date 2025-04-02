@@ -4,47 +4,56 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.schoolhub.R;
 import com.google.android.material.button.MaterialButton;
-
 import java.util.HashMap;
 
 public class GridPagerAdapter extends RecyclerView.Adapter<GridPagerAdapter.ViewHolder> {
 
     private final LayoutInflater inflater;
     private final OnGridButtonClickListener listener;
-
-    public GridPagerAdapter(Context context, OnGridButtonClickListener listener) {
-        this.inflater = LayoutInflater.from(context);
-        this.listener = listener;
-    }
+    // Holds the current base for the numbers grid.
+    private String currentBase = "Decimal";
 
     @NonNull
     @Override
     public GridPagerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         int layoutId = (viewType == 0) ? R.layout.grid_numbers : R.layout.grid_operators;
         View view = inflater.inflate(layoutId, parent, false);
-        // For grid_numbers, set up number buttons using the HashMap method.
+        // For the numbers grid (viewType 0), set up click listeners.
         if (viewType == 0) {
             HashMap<String, MaterialButton> numButtons = ButtonManager.getNumberButtons(view, parent.getContext());
             ButtonManager.setupGridButtons(numButtons, listener);
         }
-        // For grid_operators, similar logic could be added if needed.
         return new ViewHolder(view);
+    }
+
+    public GridPagerAdapter(Context context, OnGridButtonClickListener listener) {
+        this.inflater = LayoutInflater.from(context);
+        this.listener = listener;
     }
 
     @Override
     public void onBindViewHolder(@NonNull GridPagerAdapter.ViewHolder holder, int position) {
-        // No dynamic binding is needed as the grid content is static.
+        // For the numbers grid, update the buttons based on currentBase.
+        if (getItemViewType(position) == 0) {
+            HashMap<String, MaterialButton> gridButtons = ButtonManager.getNumberButtons(holder.itemView, holder.itemView.getContext());
+            ButtonManager.changeButtons(gridButtons, currentBase);
+        }
+        // The operators grid (position 1) remains unchanged.
     }
 
     @Override
     public int getItemCount() {
-        return 2; // Two pages: one for numbers and one for operators.
+        return 2; // Two pages: numbers (0) and operators (1).
+    }
+
+    // Call this method from your fragment to update the base for the numbers grid.
+    public void updateGrid(String base) {
+        currentBase = base;
+        notifyItemChanged(0);
     }
 
     @Override
