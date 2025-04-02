@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollNumbers"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <GridLayout
+        android:id="@+id/gridNumbers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="4"
+        android:padding="8dp"
+        android:useDefaultMargins="true">
+
+        <!-- Number & Hexadecimal Buttons -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn0"
+            style="@style/RoundButtonGrid"
+            android:text="0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn1"
+            style="@style/RoundButtonGrid"
+            android:text="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn2"
+            style="@style/RoundButtonGrid"
+            android:text="2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn3"
+            style="@style/RoundButtonGrid"
+            android:text="3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn4"
+            style="@style/RoundButtonGrid"
+            android:text="4" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn5"
+            style="@style/RoundButtonGrid"
+            android:text="5" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn6"
+            style="@style/RoundButtonGrid"
+            android:text="6" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn7"
+            style="@style/RoundButtonGrid"
+            android:text="7" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn8"
+            style="@style/RoundButtonGrid"
+            android:text="8" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn9"
+            style="@style/RoundButtonGrid"
+            android:text="9" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnA"
+            style="@style/RoundButtonGrid"
+            android:text="A" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnB"
+            style="@style/RoundButtonGrid"
+            android:text="B" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnC"
+            style="@style/RoundButtonGrid"
+            android:text="C" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnD"
+            style="@style/RoundButtonGrid"
+            android:text="D" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnE"
+            style="@style/RoundButtonGrid"
+            android:text="E" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnF"
+            style="@style/RoundButtonGrid"
+            android:text="F" />
+    </GridLayout>
+</androidx.core.widget.NestedScrollView>

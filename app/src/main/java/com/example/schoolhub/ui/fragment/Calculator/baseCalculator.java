@@ -1,29 +1,19 @@
-
 package com.example.schoolhub.ui.fragment.Calculator;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import android.view.GestureDetector;
+import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.ViewFlipper;
-
 import com.example.schoolhub.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.List;
 
 public class baseCalculator extends Fragment implements BaseSelectionBottomSheet.BaseSelectionListener {
 
@@ -33,7 +23,7 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
     protected MaterialButton btnClear, btnConvert, btnBackSpace, btnBase1, btnBase2, btnBaseRes;
     private TextView tvResult;
     private MaterialSwitch advModeSwtch;
-    private GestureHandler gestureHandler;
+    private ViewPager2 viewPager; // Using ViewPager2 for swiping between grids
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,52 +33,64 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Initialize views and buttons
+        eq1 = view.findViewById(R.id.eq1);
+        eq2 = view.findViewById(R.id.eq2);
         selectedEq = eq1;
         tvResult = view.findViewById(R.id.tvResult);
         advModeSwtch = view.findViewById(R.id.advModeSwtch);
-        eq1 = view.findViewById(R.id.eq1);
-        eq2 = view.findViewById(R.id.eq2);
         btnClear = view.findViewById(R.id.btnClear);
         btnConvert = view.findViewById(R.id.btnConvert);
         btnBackSpace = view.findViewById(R.id.btnBackSpace);
         btnBase1 = view.findViewById(R.id.btnBase1);
         btnBase2 = view.findViewById(R.id.btnBase2);
         btnBaseRes = view.findViewById(R.id.btnBaseRes);
+        viewPager = view.findViewById(R.id.viewPager);
 
+        // Set up base selection dialogs
         ButtonManager.setUpBases(this);
 
+        // Set up clear, backspace, and convert buttons (non-grid buttons)
+        ButtonManager.setupButtons(this);
 
-        List<MaterialButton> numButtons = ButtonManager.getNumberButtons(view, requireContext());
-
-        ButtonManager.setupButtons(this, numButtons);
-        gestureHandler = new GestureHandler(view.findViewById(R.id.viewFlipper), () -> isAdvMode);
-
+        // Toggle visibility for the second input based on advanced mode
         MaterialCardView value2CardView = view.findViewById(R.id.value2CardView);
         advModeSwtch.setOnCheckedChangeListener((compoundButton, b) -> {
             isAdvMode = b;
             value2CardView.setVisibility(b ? View.VISIBLE : View.GONE);
         });
+
+        // Change available buttons based on focused input field
         View.OnFocusChangeListener focusChangeListener = (v, hasFocus) -> {
             if (hasFocus) {
                 selectedEq = (TextInputEditText) v;
-                String selectedBase = (v == eq1) ? selectedBase1 : selectedBase2;
-                ButtonManager.changeButtons(numButtons, selectedBase);
+                // Here you might want to notify the grid to update its enabled state
+                // based on the selected base (selectedBase1 or selectedBase2).
             }
         };
         eq1.setOnFocusChangeListener(focusChangeListener);
         eq2.setOnFocusChangeListener(focusChangeListener);
+
+        // Initialize ViewPager2 with our custom adapter.
+        // We pass a callback so that when a grid button is pressed,
+        // its text is appended to the currently selected input.
+        GridPagerAdapter adapter = new GridPagerAdapter(requireContext(), buttonText -> {
+            selectedEq.append(buttonText);
+        });
+        viewPager.setAdapter(adapter);
+        viewPager.setPageTransformer((page, position) -> page.setAlpha(1 - Math.abs(position)));
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        gestureHandler = null;
+        // No additional cleanup required for ViewPager2.
     }
 
     public TextInputEditText getSelectedEq() {
         return selectedEq;
     }
-
 
     public TextView getTvResult() {
         return tvResult;
@@ -120,12 +122,12 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
             case "input1":
                 selectedBase1 = base;
                 btnBase1.setText(base);
-                ButtonManager.changeButtons(ButtonManager.getNumberButtons(getView(), requireContext()), base);
+                // You may want to notify the grid page to update its enabled state here.
                 break;
             case "input2":
                 selectedBase2 = base;
                 btnBase2.setText(base);
-                ButtonManager.changeButtons(ButtonManager.getNumberButtons(getView(), requireContext()), base);
+                // You may want to notify the grid page to update its enabled state here.
                 break;
             case "result":
                 selectedBaseResult = base;

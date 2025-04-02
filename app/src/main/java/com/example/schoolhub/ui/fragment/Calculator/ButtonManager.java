@@ -1,34 +1,36 @@
-
 package com.example.schoolhub.ui.fragment.Calculator;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
-
 import com.example.schoolhub.R;
 import com.google.android.material.button.MaterialButton;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 
 public class ButtonManager {
 
-    public static List<MaterialButton> getNumberButtons(View view, Context context) {
-        List<MaterialButton> numButtons = new ArrayList<>();
+    // Retrieves number buttons from the provided container view as a HashMap.
+    public static HashMap<String, MaterialButton> getNumberButtons(View view, Context context) {
+        HashMap<String, MaterialButton> numButtons = new HashMap<>();
+        // Loop through digits 0-9.
         for (int i = 0; i < 10; i++) {
-            numButtons.add(view.findViewById(context.getResources().getIdentifier("btn" + i, "id", context.getPackageName())));
+            MaterialButton button = view.findViewById(context.getResources()
+                    .getIdentifier("btn" + i, "id", context.getPackageName()));
+            numButtons.put(String.valueOf(i), button);
         }
+        // Loop through letters A-F.
         for (char c = 'A'; c <= 'F'; c++) {
-            numButtons.add(view.findViewById(context.getResources().getIdentifier("btn" + c, "id", context.getPackageName())));
+            MaterialButton button = view.findViewById(context.getResources()
+                    .getIdentifier("btn" + c, "id", context.getPackageName()));
+            numButtons.put(String.valueOf(c), button);
         }
         return numButtons;
     }
 
+    // Sets up the click listeners for the non-grid buttons (clear, backspace, convert).
     @SuppressLint("SetTextI18n")
-    public static void setupButtons(baseCalculator fragment, List<MaterialButton> numButtons) {
+    public static void setupButtons(baseCalculator fragment) {
         fragment.btnClear.setOnClickListener(v -> fragment.getSelectedEq().setText(""));
         fragment.btnBackSpace.setOnClickListener(v -> {
             String text = fragment.getSelectedEq().getText().toString();
@@ -36,16 +38,17 @@ public class ButtonManager {
                 fragment.getSelectedEq().setText(text.substring(0, text.length() - 1));
             }
         });
-        numButtons.forEach(b -> b.setOnClickListener(v -> fragment.getSelectedEq().append(b.getText().toString())));
         fragment.btnConvert.setOnClickListener(v -> {
-            int value1 = fragment.eq1.getText().toString().isEmpty() ? 0 : BaseConvertor.convertToDecimal(fragment.eq1.getText().toString(), fragment.getSelectedBase1());
-            int value2 = fragment.isAdvMode ? BaseConvertor.convertToDecimal(fragment.eq2.getText().toString(), fragment.getSelectedBase2()) : 0;
+            int value1 = fragment.eq1.getText().toString().isEmpty() ? 0 :
+                    BaseConvertor.convertToDecimal(fragment.eq1.getText().toString(), fragment.getSelectedBase1());
+            int value2 = fragment.isAdvMode ?
+                    BaseConvertor.convertToDecimal(fragment.eq2.getText().toString(), fragment.getSelectedBase2()) : 0;
             int result = value1 + value2;
             fragment.getTvResult().setText("Result: " + BaseConvertor.formatResult(result, fragment.selectedBaseResult));
         });
-
     }
 
+    // Sets up the base selection dialogs.
     public static void setUpBases(baseCalculator fragment) {
         fragment.btnBase1.setOnClickListener(v -> showBaseDialog(fragment, "input1"));
         fragment.btnBase2.setOnClickListener(v -> showBaseDialog(fragment, "input2"));
@@ -58,7 +61,8 @@ public class ButtonManager {
         dialog.show(fragment.getParentFragmentManager(), "BaseSelectionBottomSheet");
     }
 
-    public static void changeButtons(List<MaterialButton> buttons, String selectedBase) {
+    // Updates the enabled state of buttons based on the selected base.
+    public static void changeButtons(HashMap<String, MaterialButton> buttons, String selectedBase) {
         Predicate<MaterialButton> predicate;
         switch (selectedBase) {
             case "Binary":
@@ -71,12 +75,23 @@ public class ButtonManager {
                 predicate = button -> button.getText().toString().matches("[0-9]");
                 break;
         }
+        for (MaterialButton button : buttons.values()) {
+            if (button != null) {
+                boolean enabled = predicate.test(button);
+                button.setEnabled(enabled);
+                button.setBackgroundTintList(enabled ?
+                        button.getContext().getResources().getColorStateList(R.color.lightBlue) :
+                        button.getContext().getResources().getColorStateList(R.color.darkBlue));
+            }
+        }
+    }
 
-        for (MaterialButton button : buttons) {
-            boolean enabled = predicate.test(button);
-            button.setEnabled(enabled);
-            button.setBackgroundTintList(enabled ? button.getContext().getResources().getColorStateList(R.color.lightBlue) :
-                    button.getContext().getResources().getColorStateList(R.color.darkBlue));
+    // Sets up click listeners for grid buttons using the provided HashMap and click callback.
+    public static void setupGridButtons(HashMap<String, MaterialButton> numButtons, GridPagerAdapter.OnGridButtonClickListener listener) {
+        for (MaterialButton button : numButtons.values()) {
+            if (button != null) { // Safety check to avoid NPE.
+                button.setOnClickListener(v -> listener.onGridButtonClicked(button.getText().toString()));
+            }
         }
     }
 }

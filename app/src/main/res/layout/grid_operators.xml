@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollOperators"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <GridLayout
+        android:id="@+id/gridOperators"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="4"
+        android:padding="8dp"
+        android:useDefaultMargins="true">
+
+        <!-- Operator Buttons -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAdd"
+            style="@style/RoundButtonGrid"
+            android:text="+" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSubtract"
+            style="@style/RoundButtonGrid"
+            android:text="-" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMultiply"
+            style="@style/RoundButtonGrid"
+            android:text="*" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDivide"
+            style="@style/RoundButtonGrid"
+            android:text="/" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAnd"
+            style="@style/RoundButtonGrid"
+            android:text="&amp;" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOr"
+            style="@style/RoundButtonGrid"
+            android:text="|" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnXor"
+            style="@style/RoundButtonGrid"
+            android:text="^" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNot"
+            style="@style/RoundButtonGrid"
+            android:text="NOT" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnShiftLeft"
+            style="@style/RoundButtonGrid"
+            android:text="SHL" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnShiftRight"
+            style="@style/RoundButtonGrid"
+            android:text="SHR" />
+    </GridLayout>
+</androidx.core.widget.NestedScrollView>

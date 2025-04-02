@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -10,8 +11,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <!-- Output Field -->
-        <!-- First Value CardView -->
+        <!-- First Input Card (Value 1) -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Second Value CardView -->
+        <!-- Second Input Card (Value 2) -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/value2CardView"
             android:layout_width="match_parent"
@@ -92,6 +92,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Result and Advanced Mode Switch -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -125,178 +126,22 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- ViewPager2 Container for the Two Grids -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="6dp"
-            >
+            android:layout_marginTop="15dp">
 
-            <!-- ViewFlipper to Switch Between Numbers & Operators -->
-
-            <ViewFlipper
-                android:id="@+id/viewFlipper"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <!-- Page 1: Numbers and Hexadecimal -->
-                <GridLayout
-                    android:id="@+id/gridNumbers"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:columnCount="4"
-                    android:padding="8dp"
-                    android:useDefaultMargins="true"
-                    android:visibility="visible">
-
-                    <!-- Number & Hexadecimal Buttons -->
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn0"
-                        style="@style/RoundButtonGrid"
-                        android:text="0" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn1"
-                        style="@style/RoundButtonGrid"
-                        android:text="1" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn2"
-                        style="@style/RoundButtonGrid"
-                        android:text="2" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn3"
-                        style="@style/RoundButtonGrid"
-                        android:text="3" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn4"
-                        style="@style/RoundButtonGrid"
-                        android:text="4" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn5"
-                        style="@style/RoundButtonGrid"
-                        android:text="5" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn6"
-                        style="@style/RoundButtonGrid"
-                        android:text="6" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn7"
-                        style="@style/RoundButtonGrid"
-                        android:text="7" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn8"
-                        style="@style/RoundButtonGrid"
-                        android:text="8" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn9"
-                        style="@style/RoundButtonGrid"
-                        android:text="9" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnA"
-                        style="@style/RoundButtonGrid"
-                        android:text="A" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnB"
-                        style="@style/RoundButtonGrid"
-                        android:text="B" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnC"
-                        style="@style/RoundButtonGrid"
-                        android:text="C" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnD"
-                        style="@style/RoundButtonGrid"
-                        android:text="D" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnE"
-                        style="@style/RoundButtonGrid"
-                        android:text="E" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnF"
-                        style="@style/RoundButtonGrid"
-                        android:text="F" />
-                </GridLayout>
-
-                <!-- Page 2: Operators -->
-                <GridLayout
-                    android:id="@+id/gridOperators"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:columnCount="4"
-                    android:padding="8dp"
-                    android:useDefaultMargins="true">
-
-                    <!-- Operator Buttons -->
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnAdd"
-                        style="@style/RoundButtonGrid"
-                        android:text="+" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnSubtract"
-                        style="@style/RoundButtonGrid"
-                        android:text="-" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnMultiply"
-                        style="@style/RoundButtonGrid"
-                        android:text="*" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnDivide"
-                        style="@style/RoundButtonGrid"
-                        android:text="/" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnAnd"
-                        style="@style/RoundButtonGrid"
-                        android:text="&amp;" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnOr"
-                        style="@style/RoundButtonGrid"
-                        android:text="|" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnXor"
-                        style="@style/RoundButtonGrid"
-                        android:text="^" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnNot"
-                        style="@style/RoundButtonGrid"
-                        android:text="NOT" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnShiftLeft"
-                        style="@style/RoundButtonGrid"
-                        android:text="SHL" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnShiftRight"
-                        style="@style/RoundButtonGrid"
-                        android:text="SHR" />
-                </GridLayout>
-
-            </ViewFlipper>
-
+                android:layout_height="wrap_content" />
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Bottom Row of Buttons -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -357,12 +202,8 @@
                         android:text="Bases" />
                 </LinearLayout>
 
-
             </LinearLayout>
-
-
         </com.google.android.material.card.MaterialCardView>
-
 
     </LinearLayout>
 </FrameLayout>
