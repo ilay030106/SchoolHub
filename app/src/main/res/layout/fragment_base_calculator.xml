@@ -42,6 +42,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/value2layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -110,7 +111,8 @@
                     android:layout_height="wrap_content"
                     android:columnCount="4"
                     android:padding="8dp"
-                    android:useDefaultMargins="true">
+                    android:useDefaultMargins="true"
+                    android:visibility="visible">
 
                     <!-- Number & Hexadecimal Buttons -->
                     <com.google.android.material.button.MaterialButton

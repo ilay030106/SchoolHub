@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
@@ -42,8 +43,6 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         selectedEq = eq1;
-
-
         tvResult = view.findViewById(R.id.tvResult);
         advModeSwtch = view.findViewById(R.id.advModeSwtch);
         eq1 = view.findViewById(R.id.eq1);
@@ -54,6 +53,8 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
         btnBase1 = view.findViewById(R.id.btnBase1);
         btnBase2 = view.findViewById(R.id.btnBase2);
         btnBaseRes = view.findViewById(R.id.btnBaseRes);
+        LinearLayout value2layout = view.findViewById(R.id.value2layout);
+
         ButtonManager.setUpBases(this);
 
 
@@ -62,7 +63,11 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
         ButtonManager.setupButtons(this, numButtons);
         gestureHandler = new GestureHandler(view.findViewById(R.id.viewFlipper), () -> isAdvMode);
 
-        advModeSwtch.setOnCheckedChangeListener((compoundButton, b) -> isAdvMode = b);
+        advModeSwtch.setOnCheckedChangeListener((compoundButton, b) ->
+        {
+            isAdvMode = b;
+            value2layout.setVisibility(b ? View.VISIBLE : View.GONE);
+        });
         View.OnFocusChangeListener focusChangeListener = (v, hasFocus) -> {
             if (hasFocus) {
                 selectedEq = (TextInputEditText) v;
@@ -72,6 +77,7 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
         };
         eq1.setOnFocusChangeListener(focusChangeListener);
         eq2.setOnFocusChangeListener(focusChangeListener);
+        value2layout.setVisibility(isAdvMode ? View.VISIBLE : View.GONE);
     }
 
     @Override

@@ -54,7 +54,7 @@ public class ButtonManager {
 
     private static void showBaseDialog(baseCalculator fragment, String target) {
         BaseSelectionBottomSheet dialog = BaseSelectionBottomSheet.newInstance(target);
-        dialog.setListener(fragment);  // ✅ FIX: Manually set the listener
+        dialog.setListener(fragment);
         dialog.show(fragment.getParentFragmentManager(), "BaseSelectionBottomSheet");
     }
 
