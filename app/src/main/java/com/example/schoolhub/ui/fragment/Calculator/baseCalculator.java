@@ -19,6 +19,7 @@ import android.widget.ViewFlipper;
 
 import com.example.schoolhub.R;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -53,7 +54,6 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
         btnBase1 = view.findViewById(R.id.btnBase1);
         btnBase2 = view.findViewById(R.id.btnBase2);
         btnBaseRes = view.findViewById(R.id.btnBaseRes);
-        LinearLayout value2layout = view.findViewById(R.id.value2layout);
 
         ButtonManager.setUpBases(this);
 
@@ -63,10 +63,10 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
         ButtonManager.setupButtons(this, numButtons);
         gestureHandler = new GestureHandler(view.findViewById(R.id.viewFlipper), () -> isAdvMode);
 
-        advModeSwtch.setOnCheckedChangeListener((compoundButton, b) ->
-        {
+        MaterialCardView value2CardView = view.findViewById(R.id.value2CardView);
+        advModeSwtch.setOnCheckedChangeListener((compoundButton, b) -> {
             isAdvMode = b;
-            value2layout.setVisibility(b ? View.VISIBLE : View.GONE);
+            value2CardView.setVisibility(b ? View.VISIBLE : View.GONE);
         });
         View.OnFocusChangeListener focusChangeListener = (v, hasFocus) -> {
             if (hasFocus) {
@@ -77,7 +77,6 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
         };
         eq1.setOnFocusChangeListener(focusChangeListener);
         eq2.setOnFocusChangeListener(focusChangeListener);
-        value2layout.setVisibility(isAdvMode ? View.VISIBLE : View.GONE);
     }
 
     @Override

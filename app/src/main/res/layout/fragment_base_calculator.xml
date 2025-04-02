@@ -9,85 +9,121 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
+
         <!-- Output Field -->
-        <LinearLayout
+        <!-- First Value CardView -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2.5">
+            android:layout_margin="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnBase1"
-                style="@style/RoundButton"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Bases" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/eq1"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:cursorVisible="false"
-                android:ems="10"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:fontFamily="@font/varela_round_regular"
-                android:hint="הכנס מספר"
-                android:inputType="none" />
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:weightSum="2.5">
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBase1"
+                    style="@style/RoundButton"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Bases" />
 
-        </LinearLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/eq1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:cursorVisible="false"
+                    android:ems="10"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:fontFamily="@font/varela_round_regular"
+                    android:hint="הכנס מספר"
+                    android:inputType="none" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <LinearLayout
-            android:id="@+id/value2layout"
+        <!-- Second Value CardView -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/value2CardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_margin="8dp"
             android:visibility="gone"
-            android:weightSum="2">
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnBase2"
-                style="@style/RoundButton"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:text="Base 2" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/eq2"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/value2layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:cursorVisible="false"
-                android:ems="10"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:fontFamily="@font/varela_round_regular"
-                android:hint="הכנס מספר"
-                android:inputType="none" />
-        </LinearLayout>
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:weightSum="2.5">
 
-        <TextView
-            android:id="@+id/tvResult"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBase2"
+                    style="@style/RoundButton"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Base 2" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/eq2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:cursorVisible="false"
+                    android:ems="10"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:fontFamily="@font/varela_round_regular"
+                    android:hint="הכנס מספר"
+                    android:inputType="none" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_medium"
-            android:text="Result: "
-            android:textSize="24sp" />
+            android:layout_margin="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp">
 
-        <!-- CardView for Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
 
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/advModeSwtch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_medium"
-            android:text="Enable Advance Mode (2 Operators)" />
+                <TextView
+                    android:id="@+id/tvResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Result: "
+                    android:textSize="24sp" />
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/advModeSwtch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Enable Advance Mode (2 Operators)" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
