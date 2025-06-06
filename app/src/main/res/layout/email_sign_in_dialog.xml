@@ -71,7 +71,6 @@
             android:layout_height="wrap_content"
             android:text="Remember Me?"
             app:trackTint="@color/lightBlue"
-
             app:thumbTint="@color/white"
             app:trackDecorationTint="@color/Transparent" />
 

@@ -28,8 +28,6 @@ swipeRevealLayout = "1.4.1"
 xcomMaterial = "1.9.0"
 gson = "2.8.9"
 
-
-
 [libraries]
 blurview = { module = "com.eightbitlab:blurview", version.ref = "blurview" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }

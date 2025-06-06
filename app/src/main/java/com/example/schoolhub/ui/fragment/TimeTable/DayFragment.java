@@ -52,12 +52,20 @@ public class DayFragment extends Fragment {
     }
 
     private void updateLessons(List<Lesson> lessons) {
+        android.util.Log.d("DayFragment", "updateLessons called, lessons size: " + (lessons != null ? lessons.size() : 0));
+        if (lessons != null) {
+            for (Lesson lesson : lessons) {
+                android.util.Log.d("DayFragment", "Lesson: " + lesson);
+            }
+        }
         List<Lesson> filteredLessons = new ArrayList<>();
         for (Lesson lesson : lessons) {
-            if (lesson.getDay().equalsIgnoreCase(dayName)) {
+            if (lesson.getDay() != null && lesson.getDay().equalsIgnoreCase(dayName)) {
                 filteredLessons.add(lesson);
             }
         }
+        android.util.Log.d("DayFragment", "Filtered lessons size: " + filteredLessons.size());
         lessonAdapter.updateLessons(filteredLessons);
     }
 }
+

@@ -22,7 +22,6 @@ import java.util.List;
 public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonViewHolder> {
 
     private List<Lesson> lessons;
-    Lesson lesson;
 
     public LessonAdapter(List<Lesson> lessons) {
         this.lessons = lessons;
@@ -39,12 +38,13 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull LessonViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        lesson = lessons.get(position);
+        Lesson lesson = lessons.get(position); // Use local variable
         StringBuilder time = new StringBuilder();
         holder.lessonName.setText(lesson.getName());
         holder.teacherName.setText(lesson.getTeacher().getName());
         holder.roomNum.setText(lesson.getRoomNum());
-        time.append(lesson.getEndTime()).append(" - ").append(lesson.getStartTime());
+        // Fix time order: start - end
+        time.append(lesson.getStartTime()).append(" - ").append(lesson.getEndTime());
         holder.swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
         holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, holder.rightBottomWrapper);
         holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Left, holder.leftBottomWrapper);
@@ -158,3 +158,4 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         }
     }
 }
+

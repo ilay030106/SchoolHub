@@ -39,7 +39,6 @@ public class TimeTableFragment extends Fragment {
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
         addLessonFab = view.findViewById(R.id.add_lesson_fab);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         // Set up adapter and ViewPager
         adapter = new TimetablePagerAdapter(this);

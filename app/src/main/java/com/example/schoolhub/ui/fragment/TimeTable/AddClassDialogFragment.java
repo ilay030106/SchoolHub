@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.schoolhub.data.local.model.TimeTable.Lesson;
+import com.example.schoolhub.data.remote.FireBaseLessonRepository;
 import com.example.schoolhub.ui.ViewModel.TimeTable.LessonViewModel;
 import com.example.schoolhub.data.local.model.TimeTable.Teacher;
 import com.example.schoolhub.R;
@@ -44,7 +46,7 @@ public class AddClassDialogFragment extends DialogFragment {
     private String selectedColor = "#1A6392"; // Default color
 
     private TextView previewLessonName, previewTeacherName, previewRoomNum, tvTimeDisplay;
-
+    private FireBaseLessonRepository repository = new FireBaseLessonRepository();
 
     private static final String[] PASTEL_COLORS = {
             "#AEC6CF", // Pastel Blue
@@ -65,70 +67,52 @@ public class AddClassDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_class_dialog, container, false);
 
-        // ViewModel Initialization
         LessonViewModel lessonViewModel = new ViewModelProvider(this).get(LessonViewModel.class);
-
-        // Initialize UI
         initializeUI(view);
-        setupDaySelection(view);
+        setupDaySelection();
         setupDynamicPreview();
         setupAutoComplete(lessonViewModel);
         setupColorPicker();
 
-        // Add Button Listener
-        addButton.setOnClickListener(v -> {
-            String className = classInput.getText().toString();
-            String teacherName = teacherInput.getText().toString();
-            String roomNum = ClassNumberInput.getText().toString();
-            String startTime = startTimeButton.getText().toString();
-            String endTime = endTimeButton.getText().toString();
-
-            if (className.isEmpty() || teacherName.isEmpty() || startTime.isEmpty() || endTime.isEmpty() || selectedDay.isEmpty()) {
-                Toast.makeText(getContext(), "נא למלא את כל השדות", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            Teacher teacher = new Teacher(teacherName);
-            Lesson newLesson = new Lesson(className, teacher, roomNum, selectedDay, startTime, endTime, selectedColor);
-            if (!loh.isLessonOverlapping(newLesson)) {
-                loh.createLesson(newLesson);
-                loh.close();
-                Snackbar snackbar = Snackbar.make(view, "שיעור נוסף בהצלחה", Snackbar.LENGTH_LONG);
-                snackbar.setAction("בטל", v1 -> {
-                   loh.open();
-                   loh.deleteLessonById(newLesson.getId());
-                   loh.close();
-                });
-                snackbar.show();
-                dismiss();
-            } else {
-                Toast.makeText(getContext(), "שיעור חופף עם שיעור קיים", Toast.LENGTH_SHORT).show();
-            }
-
-        });
-        closeBtn.setOnClickListener(v ->{
-            if(areFieldsNotEmpty()){
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
-                builder.setTitle("האם אתה בטוח שברצונך לצאת?").setPositiveButton("כן", (dialog, which) -> {
-                    dismiss();
-                }).setNegativeButton("לא", (dialog, which) -> {
-                    dialog.dismiss();
-                }).show();
-            }
-            else {
-                dismiss();
-            }
-
-        } );
+        addButton.setOnClickListener(v -> handleAddLesson(view));
+        closeBtn.setOnClickListener(v -> handleCloseDialog());
 
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (getDialog() != null && getDialog().getWindow() != null) {
-            Window window = getDialog().getWindow();
-            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+    private void handleAddLesson(View view) {
+        String className = classInput.getText().toString().trim();
+        String teacherName = teacherInput.getText().toString().trim();
+        String roomNum = ClassNumberInput.getText().toString().trim();
+        String startTime = startTimeButton.getText().toString().trim();
+        String endTime = endTimeButton.getText().toString().trim();
+
+        if (className.isEmpty() || teacherName.isEmpty() || startTime.isEmpty() || endTime.isEmpty() || selectedDay.isEmpty()) {
+            Snackbar.make(requireView(), "נא למלא את כל השדות", Snackbar.LENGTH_SHORT).show();
+            return;
+        }
+        Teacher teacher = new Teacher(teacherName);
+        Lesson newLesson = new Lesson("0", className, teacher, roomNum, selectedDay, startTime, endTime, selectedColor);
+
+        repository.isLessonOverlapping(newLesson, isOverlapping -> {
+            if (isOverlapping) {
+                Snackbar.make(requireView(), "קיים שיעור חופף במערכת!", Snackbar.LENGTH_SHORT).show();
+            } else {
+                repository.createLesson(newLesson, requireView());
+                dismiss();
+            }
+        });
+    }
+
+    private void handleCloseDialog() {
+        if (areFieldsNotEmpty()) {
+            new MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("האם אתה בטוח שברצונך לצאת?")
+                    .setPositiveButton("כן", (dialog, which) -> dismiss())
+                    .setNegativeButton("לא", (dialog, which) -> dialog.dismiss())
+                    .show();
+        } else {
+            dismiss();
         }
     }
 
@@ -152,10 +136,10 @@ public class AddClassDialogFragment extends DialogFragment {
 
     private boolean areFieldsNotEmpty() {
         return !classInput.getText().toString().isEmpty() ||
-               !teacherInput.getText().toString().isEmpty() ||
-               !ClassNumberInput.getText().toString().isEmpty() ||
-               !startTimeButton.getText().toString().isEmpty() ||
-               !endTimeButton.getText().toString().isEmpty()||
+                !teacherInput.getText().toString().isEmpty() ||
+                !ClassNumberInput.getText().toString().isEmpty() ||
+                !startTimeButton.getText().toString().isEmpty() ||
+                !endTimeButton.getText().toString().isEmpty() ||
                 !selectedDay.isEmpty();
 
     }
@@ -221,12 +205,10 @@ public class AddClassDialogFragment extends DialogFragment {
         });
     }
 
-    private void setupDaySelection(View view) {
+    private void setupDaySelection() {
         daysGroup.setOnCheckedChangeListener((group, checkedId) -> {
             RadioButton selectedButton = group.findViewById(checkedId);
-            if (selectedButton != null) {
-                selectedDay = selectedButton.getText().toString();
-            }
+            selectedDay = selectedButton != null ? selectedButton.getText().toString() : "";
         });
     }
 
@@ -271,11 +253,15 @@ public class AddClassDialogFragment extends DialogFragment {
         });
     }
 
-
     private void setupAutoComplete(LessonViewModel viewModel) {
-
-
-
+        viewModel.getClassNames().observe(getViewLifecycleOwner(), classNames -> {
+            ArrayAdapter<String> classAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, classNames);
+            classInput.setAdapter(classAdapter);
+        });
+        viewModel.getTeacherNames().observe(getViewLifecycleOwner(), teacherNames -> {
+            ArrayAdapter<String> teacherAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, teacherNames);
+            teacherInput.setAdapter(teacherAdapter);
+        });
     }
 
     abstract static class SimpleTextWatcher implements TextWatcher {
@@ -288,3 +274,4 @@ public class AddClassDialogFragment extends DialogFragment {
         }
     }
 }
+
