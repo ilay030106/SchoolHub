@@ -23,10 +23,10 @@ public class GridPagerAdapter extends RecyclerView.Adapter<GridPagerAdapter.View
         int layoutId = (viewType == 0) ? R.layout.grid_numbers : R.layout.grid_operators;
         View view = inflater.inflate(layoutId, parent, false);
         // For the numbers grid (viewType 0), set up click listeners.
-        if (viewType == 0) {
-            HashMap<String, MaterialButton> numButtons = ButtonManager.getNumberButtons(view, parent.getContext());
-            ButtonManager.setupGridButtons(numButtons, listener);
-        }
+        HashMap<String, MaterialButton> numButtons = ButtonManager.getNumberButtons(view, parent.getContext());
+        ButtonManager.setupGridButtons(numButtons, listener);
+        HashMap<String, MaterialButton> operatorBtns  = ButtonManager.getOperatorButtons(view, parent.getContext());
+        ButtonManager.setupGridButtons(operatorBtns, listener);
         return new ViewHolder(view);
     }
 

@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="16dp"
-    tools:context=".Login.LoginScreen"
+    tools:context=".ui.login.LoginScreen"
     android:background="@drawable/app_bg">
 
     <TextView

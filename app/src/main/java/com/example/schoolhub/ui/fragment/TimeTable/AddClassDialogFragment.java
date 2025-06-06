@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.schoolhub.data.local.Database.TimeTable.LessonsOpenHelper;
 import com.example.schoolhub.data.local.model.TimeTable.Lesson;
 import com.example.schoolhub.ui.ViewModel.TimeTable.LessonViewModel;
 import com.example.schoolhub.data.local.model.TimeTable.Teacher;
@@ -46,7 +45,6 @@ public class AddClassDialogFragment extends DialogFragment {
 
     private TextView previewLessonName, previewTeacherName, previewRoomNum, tvTimeDisplay;
 
-    LessonsOpenHelper loh;
 
     private static final String[] PASTEL_COLORS = {
             "#AEC6CF", // Pastel Blue
@@ -61,7 +59,6 @@ public class AddClassDialogFragment extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
-        loh =LessonsOpenHelper.getInstance(getContext());
     }
 
     @Override
@@ -90,7 +87,6 @@ public class AddClassDialogFragment extends DialogFragment {
                 Toast.makeText(getContext(), "נא למלא את כל השדות", Toast.LENGTH_SHORT).show();
                 return;
             }
-            loh.open();
             Teacher teacher = new Teacher(teacherName);
             Lesson newLesson = new Lesson(className, teacher, roomNum, selectedDay, startTime, endTime, selectedColor);
             if (!loh.isLessonOverlapping(newLesson)) {

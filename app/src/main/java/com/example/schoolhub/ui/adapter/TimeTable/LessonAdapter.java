@@ -7,14 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.example.schoolhub.R;
-import com.example.schoolhub.data.local.Database.TimeTable.LessonsOpenHelper;
 import com.example.schoolhub.data.local.model.TimeTable.Lesson;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -24,7 +22,6 @@ import java.util.List;
 public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonViewHolder> {
 
     private List<Lesson> lessons;
-    LessonsOpenHelper loh;
     Lesson lesson;
 
     public LessonAdapter(List<Lesson> lessons) {
@@ -35,14 +32,13 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
     @Override
     public LessonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lesson_item_layout, parent, false);
-        loh = LessonsOpenHelper.getInstance(parent.getContext());
         return new LessonViewHolder(view);
 
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull LessonViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull LessonViewHolder holder, @SuppressLint("RecyclerView") int position) {
         lesson = lessons.get(position);
         StringBuilder time = new StringBuilder();
         holder.lessonName.setText(lesson.getName());
@@ -109,16 +105,12 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         // Delete Button Action
         holder.btnDelete.setOnClickListener(v -> {
             lessons.remove(position);
-            loh.open();
-            loh.deleteLessonById(lesson.getId());
-            loh.close();
+
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, lessons.size());
             Snackbar.make(holder.itemView, "Lesson deleted", Snackbar.LENGTH_LONG)
                     .setAction("Undo", v1 -> {
-                        loh.open();
-                        loh.createLesson(lesson);
-                        loh.close();
+
                         lessons.add(position, lesson);
                         notifyItemInserted(position);
                     }).show();

@@ -11,10 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.schoolhub.R;
-import com.example.schoolhub.data.local.Database.TimeTable.LessonsOpenHelper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,7 +27,6 @@ public class homeFragment extends Fragment {
     FirebaseFirestore db;
     String firstName;
 
-    LessonsOpenHelper loh;
 
 
     @SuppressLint("SetTextI18n")
@@ -37,7 +34,6 @@ public class homeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
-        loh=LessonsOpenHelper.getInstance(getContext());
 
     }
 
@@ -45,7 +41,6 @@ public class homeFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
 
         return inflater.inflate(R.layout.fragment_home, container, false);
     }

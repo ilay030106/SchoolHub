@@ -1,11 +1,7 @@
 package com.example.schoolhub.ui.fragment.TimeTable;
 
-import android.graphics.Color;
-import android.graphics.RectF;
 import android.os.Bundle;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -13,26 +9,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.schoolhub.data.local.Database.TimeTable.LessonsOpenHelper;
-import com.example.schoolhub.data.local.model.TimeTable.Lesson;
-import com.example.schoolhub.ui.adapter.TimeTable.LessonAdapter;
 import com.example.schoolhub.R;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.schoolhub.data.local.model.TimeTable.Lesson;
+import com.example.schoolhub.ui.ViewModel.TimeTable.LessonViewModel;
+import com.example.schoolhub.ui.adapter.TimeTable.LessonAdapter;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class DayFragment extends Fragment {
 
     private final String dayName;
     private RecyclerView lessonsList;
     private LessonAdapter lessonAdapter;
-    private LessonsOpenHelper loh;
+    private LessonViewModel lessonViewModel;
 
     public DayFragment(String dayName) {
         this.dayName = dayName;
@@ -45,30 +39,25 @@ public class DayFragment extends Fragment {
         TextView textView = view.findViewById(R.id.day_title);
         lessonsList = view.findViewById(R.id.LessonsList);
 
-        loh = LessonsOpenHelper.getInstance(getContext());
-        loh.open();
-        lessonAdapter = new LessonAdapter(loh.getLessonsForDay(dayName));
-        lessonsList.setAdapter(lessonAdapter);
-        loh.close();
-
         textView.setText(dayName);
         lessonsList.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        lessonAdapter = new LessonAdapter(new ArrayList<>());
+        lessonsList.setAdapter(lessonAdapter);
+
+        lessonViewModel = new ViewModelProvider(this).get(LessonViewModel.class);
+        lessonViewModel.getLessons().observe(getViewLifecycleOwner(), this::updateLessons);
 
         return view;
     }
 
-    public void refreshLessons() {
-        loh.open();
-        List<Lesson> updatedLessons = loh.getLessonsForDay(dayName);
-        lessonAdapter.updateLessons(updatedLessons);
-        loh.close();
+    private void updateLessons(List<Lesson> lessons) {
+        List<Lesson> filteredLessons = new ArrayList<>();
+        for (Lesson lesson : lessons) {
+            if (lesson.getDay().equalsIgnoreCase(dayName)) {
+                filteredLessons.add(lesson);
+            }
+        }
+        lessonAdapter.updateLessons(filteredLessons);
     }
-
-
-
-
-
-
-
 }
