@@ -62,5 +62,15 @@
             android:id="@+id/btnShiftRight"
             style="@style/RoundButtonGrid"
             android:text="SHR" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/leftBrace"
+            style="@style/RoundButtonGrid"
+            android:text="(" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rightBrace"
+            style="@style/RoundButtonGrid"
+            android:text=")" />
     </GridLayout>
 </androidx.core.widget.NestedScrollView>

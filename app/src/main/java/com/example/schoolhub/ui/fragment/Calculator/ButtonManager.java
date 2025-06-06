@@ -3,9 +3,14 @@ package com.example.schoolhub.ui.fragment.Calculator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
+
 import com.example.schoolhub.R;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class ButtonManager {
@@ -13,19 +18,28 @@ public class ButtonManager {
     // Retrieves number buttons from the provided container view as a HashMap.
     public static HashMap<String, MaterialButton> getNumberButtons(View view, Context context) {
         HashMap<String, MaterialButton> numButtons = new HashMap<>();
-        // Loop through digits 0-9.
-        for (int i = 0; i < 10; i++) {
-            MaterialButton button = view.findViewById(context.getResources()
-                    .getIdentifier("btn" + i, "id", context.getPackageName()));
-            numButtons.put(String.valueOf(i), button);
-        }
-        // Loop through letters A-F.
-        for (char c = 'A'; c <= 'F'; c++) {
-            MaterialButton button = view.findViewById(context.getResources()
-                    .getIdentifier("btn" + c, "id", context.getPackageName()));
-            numButtons.put(String.valueOf(c), button);
+        ViewGroup container = view.findViewById(R.id.gridNumbers);
+        for (int i = 0; i < container.getChildCount(); i++) {
+            View child = container.getChildAt(i);
+            if (child instanceof MaterialButton) {
+                MaterialButton button = (MaterialButton) child;
+                numButtons.put(button.getText().toString().trim(), button);
+            }
         }
         return numButtons;
+    }
+
+    public static HashMap<String, MaterialButton> getOperatorButtons(View view, Context context) {
+        HashMap<String, MaterialButton> operatorButtons = new HashMap<>();
+        ViewGroup container = view.findViewById(R.id.gridOperators);
+        for (int i = 0; i < container.getChildCount(); i++) {
+            View child = container.getChildAt(i);
+            if (child instanceof MaterialButton) {
+                MaterialButton button = (MaterialButton) child;
+                operatorButtons.put(button.getText().toString().trim(), button);
+            }
+        }
+        return operatorButtons;
     }
 
     // Sets up the click listeners for the non-grid buttons (clear, backspace, convert).
@@ -33,25 +47,31 @@ public class ButtonManager {
     public static void setupButtons(baseCalculator fragment) {
         fragment.btnClear.setOnClickListener(v -> fragment.getSelectedEq().setText(""));
         fragment.btnBackSpace.setOnClickListener(v -> {
-            String text = fragment.getSelectedEq().getText().toString();
+            String text = Objects.requireNonNull(fragment.getSelectedEq().getText()).toString();
             if (!text.isEmpty()) {
                 fragment.getSelectedEq().setText(text.substring(0, text.length() - 1));
             }
         });
         fragment.btnConvert.setOnClickListener(v -> {
-            int value1 = fragment.eq1.getText().toString().isEmpty() ? 0 :
-                    BaseConvertor.convertToDecimal(fragment.eq1.getText().toString(), fragment.getSelectedBase1());
-            int value2 = fragment.isAdvMode ?
-                    BaseConvertor.convertToDecimal(fragment.eq2.getText().toString(), fragment.getSelectedBase2()) : 0;
-            int result = value1 + value2;
+
+            String rawExpression = Objects.requireNonNull(fragment.getSelectedEq().getText()).toString();
+
+            int result;
+            try {
+                result = BaseConvertor.evaluateExpression(rawExpression);
+            } catch (Exception e) {
+                Snackbar.make(fragment.requireView(), "Invalid expression", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
+
             fragment.getTvResult().setText("Result: " + BaseConvertor.formatResult(result, fragment.selectedBaseResult));
         });
     }
 
+
     // Sets up the base selection dialogs.
     public static void setUpBases(baseCalculator fragment) {
         fragment.btnBase1.setOnClickListener(v -> showBaseDialog(fragment, "input1"));
-        fragment.btnBase2.setOnClickListener(v -> showBaseDialog(fragment, "input2"));
         fragment.btnBaseRes.setOnClickListener(v -> showBaseDialog(fragment, "result"));
     }
 

@@ -51,46 +51,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Second Input Card (Value 2) -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/value2CardView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:visibility="gone"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="6dp">
 
-            <LinearLayout
-                android:id="@+id/value2layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                android:weightSum="2.5">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnBase2"
-                    style="@style/RoundButton"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Base 2" />
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/eq2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
-                    android:cursorVisible="false"
-                    android:ems="10"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:fontFamily="@font/varela_round_regular"
-                    android:hint="הכנס מספר"
-                    android:inputType="none" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
 
         <!-- Result and Advanced Mode Switch -->
         <com.google.android.material.card.MaterialCardView
@@ -114,13 +75,6 @@
                     android:text="Result: "
                     android:textSize="24sp" />
 
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/advModeSwtch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:text="Enable Advance Mode (2 Operators)" />
 
             </LinearLayout>
 

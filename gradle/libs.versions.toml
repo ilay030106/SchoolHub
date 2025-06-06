@@ -20,6 +20,7 @@ lifecycleViewmodelKtx = "2.8.7"
 googleGmsGoogleServices = "4.4.2"
 firebaseStorage = "21.0.1"
 annotation = "1.9.1"
+mathparserOrgMxparser = "6.1.0"
 recyclerviewSwipedecorator = "1.3"
 roomCompiler = "2.6.1"
 roomRuntime = "2.6.1"
@@ -51,6 +52,7 @@ lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-lived
 lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+mathparser-org-mxparser = { module = "org.mariuszgromada.math:MathParser.org-mXparser", version.ref = "mathparserOrgMxparser" }
 recyclerview-swipedecorator = { module = "it.xabaras.android:recyclerview-swipedecorator", version.ref = "recyclerviewSwipedecorator" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }

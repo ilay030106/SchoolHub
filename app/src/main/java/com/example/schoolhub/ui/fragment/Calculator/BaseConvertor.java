@@ -1,5 +1,7 @@
 package com.example.schoolhub.ui.fragment.Calculator;
 
+import org.mariuszgromada.math.mxparser.Expression;
+
 public class BaseConvertor {
 
     public static int convertToDecimal(String value, String base) {
@@ -27,4 +29,24 @@ public class BaseConvertor {
                 return String.valueOf(result);
         }
     }
+
+    // ✅ פונקציה שמבצעת את החישוב בפועל
+    public static int evaluateExpression(String rawExpression) throws Exception {
+        // החלפת מילות מפתח לסימנים מתאימים
+        String expr = rawExpression
+                .replace("NOT", "~")
+                .replace("SHL", "<<")
+                .replace("SHR", ">>")
+                .replaceAll("\\s+", "");
+
+        Expression expression = new Expression(expr);
+        double result = expression.calculate();
+
+        if (Double.isNaN(result)) {
+            throw new Exception("Invalid expression");
+        }
+
+        return (int) result;
+    }
 }
+
