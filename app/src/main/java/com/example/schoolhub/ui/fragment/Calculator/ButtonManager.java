@@ -45,7 +45,10 @@ public class ButtonManager {
     // Sets up the click listeners for the non-grid buttons (clear, backspace, convert).
     @SuppressLint("SetTextI18n")
     public static void setupButtons(baseCalculator fragment) {
-        fragment.btnClear.setOnClickListener(v -> fragment.getSelectedEq().setText(""));
+        fragment.btnClear.setOnClickListener(v -> {
+            fragment.getSelectedEq().setText("");
+            fragment.getTvResult().setText("Result: ");
+        });
         fragment.btnBackSpace.setOnClickListener(v -> {
             String text = Objects.requireNonNull(fragment.getSelectedEq().getText()).toString();
             if (!text.isEmpty()) {

@@ -12,8 +12,12 @@ import com.example.schoolhub.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 
+import lombok.Setter;
+
 public class BaseSelectionBottomSheet extends BottomSheetDialogFragment {
 
+    // ✅ FIX: Set the listener manually before showing the dialog
+    @Setter
     private BaseSelectionListener listener;
     private String target;  // Store the target selection field
 
@@ -23,11 +27,6 @@ public class BaseSelectionBottomSheet extends BottomSheetDialogFragment {
         args.putString("target", target);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    // ✅ FIX: Set the listener manually before showing the dialog
-    public void setListener(BaseSelectionListener listener) {
-        this.listener = listener;
     }
 
     @Nullable

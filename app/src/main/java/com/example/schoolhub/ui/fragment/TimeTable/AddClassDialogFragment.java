@@ -6,14 +6,11 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -28,9 +25,9 @@ import com.example.schoolhub.ui.ViewModel.TimeTable.LessonViewModel;
 import com.example.schoolhub.data.local.model.TimeTable.Teacher;
 import com.example.schoolhub.R;
 import com.example.schoolhub.ui.adapter.TimeTable.ColorAdapter;
+import com.example.schoolhub.utils.AppUtils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
@@ -73,14 +70,13 @@ public class AddClassDialogFragment extends DialogFragment {
         setupDynamicPreview();
         setupAutoComplete(lessonViewModel);
         setupColorPicker();
-
-        addButton.setOnClickListener(v -> handleAddLesson(view));
+        addButton.setOnClickListener(v -> addLesson(view));
         closeBtn.setOnClickListener(v -> handleCloseDialog());
 
         return view;
     }
 
-    private void handleAddLesson(View view) {
+    private void addLesson(View view) {
         String className = classInput.getText().toString().trim();
         String teacherName = teacherInput.getText().toString().trim();
         String roomNum = ClassNumberInput.getText().toString().trim();
@@ -88,7 +84,7 @@ public class AddClassDialogFragment extends DialogFragment {
         String endTime = endTimeButton.getText().toString().trim();
 
         if (className.isEmpty() || teacherName.isEmpty() || startTime.isEmpty() || endTime.isEmpty() || selectedDay.isEmpty()) {
-            Snackbar.make(requireView(), "נא למלא את כל השדות", Snackbar.LENGTH_SHORT).show();
+            AppUtils.showSnackbar(requireView(), "נא למלא את כל השדות");
             return;
         }
         Teacher teacher = new Teacher(teacherName);
@@ -96,9 +92,13 @@ public class AddClassDialogFragment extends DialogFragment {
 
         repository.isLessonOverlapping(newLesson, isOverlapping -> {
             if (isOverlapping) {
-                Snackbar.make(requireView(), "קיים שיעור חופף במערכת!", Snackbar.LENGTH_SHORT).show();
+                AppUtils.showSnackbar(requireView(), "קיים שיעור חופף במערכת!");
+
             } else {
                 repository.createLesson(newLesson, requireView());
+                AppUtils.showSnackbar(requireView(), "השיעור נוסף בהצלחה!", "בטל", v -> {
+                    repository.deleteLesson(newLesson, requireView());
+                });
                 dismiss();
             }
         });
@@ -274,4 +274,3 @@ public class AddClassDialogFragment extends DialogFragment {
         }
     }
 }
-

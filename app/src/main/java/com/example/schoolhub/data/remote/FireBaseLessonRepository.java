@@ -1,13 +1,18 @@
 package com.example.schoolhub.data.remote;
 
+
+import static com.example.schoolhub.utils.AppUtils.showSnackbar;
+
 import com.example.schoolhub.data.local.model.TimeTable.Lesson;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FireBaseLessonRepository {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -57,16 +62,11 @@ public class FireBaseLessonRepository {
                 .collection("lessons")
                 .document(lesson.getId())
                 .delete().addOnSuccessListener(task -> {
-                    Snackbar.make(view, "שיעור נמחק בהצלחה!", Snackbar.LENGTH_SHORT)
-                            .setAction("בטל", v -> createLesson(lesson, view)).show();
+                    showSnackbar(view, "שיעור נמחק בהצלחה!", "בטל", v -> createLesson(lesson, view));
                 });
     }
 
-    private void showSnackbar(View view, String message) {
-        if (view != null) {
-            Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
-        }
-    }
+
 
     /**
      * Checks if the given lesson overlaps with any existing lesson for the user (same day, time overlap).
@@ -125,7 +125,7 @@ public class FireBaseLessonRepository {
     public void fetchLessonsForCurrentUser(LessonsCallback callback) {
         if (uid == null) {
             android.util.Log.e("FireBaseLessonRepository", "UID is null, cannot fetch lessons");
-            callback.onLessonsResult(new java.util.ArrayList<>());
+            callback.onLessonsResult(new ArrayList<>());
             return;
         }
         db.collection("users")
@@ -133,10 +133,10 @@ public class FireBaseLessonRepository {
                 .collection("lessons")
                 .get()
                 .addOnCompleteListener(task -> {
-                    java.util.List<com.example.schoolhub.data.local.model.TimeTable.Lesson> lessonList = new java.util.ArrayList<>();
+                    List<Lesson> lessonList = new ArrayList<>();
                     if (task.isSuccessful() && task.getResult() != null) {
                         for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                            com.example.schoolhub.data.local.model.TimeTable.Lesson lesson = document.toObject(com.example.schoolhub.data.local.model.TimeTable.Lesson.class);
+                            Lesson lesson = document.toObject(Lesson.class);
                             if (lesson != null) {
                                 lessonList.add(lesson);
                             } else {
@@ -152,7 +152,7 @@ public class FireBaseLessonRepository {
     }
 
     public interface LessonsCallback {
-        void onLessonsResult(java.util.List<com.example.schoolhub.data.local.model.TimeTable.Lesson> lessons);
+        void onLessonsResult(List<Lesson> lessons);
     }
 
     /**
@@ -160,5 +160,9 @@ public class FireBaseLessonRepository {
      */
     public interface OverlapCallback {
         void onResult(boolean isOverlapping);
+    }
+
+    public interface SnackbarActionCallBack {
+        void action();
     }
 }

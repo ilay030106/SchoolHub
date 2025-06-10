@@ -33,7 +33,7 @@
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Bases" />
+                    android:text="Decimal" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/eq1"
@@ -64,23 +64,52 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
-
+                android:orientation="vertical">
                 <TextView
-                    android:id="@+id/tvResult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10sp"
+                    android:fontFamily="@font/varela_round_regular"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="5dp"
+                    android:text="אנא בחר את הבסיס להצגת התוצאה"
+                    android:textSize="15sp" />
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
-                    android:text="Result: "
-                    android:textSize="24sp" />
+                    android:orientation="horizontal"
+                    android:padding="6dp"
+                    android:weightSum="2">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnBaseRes"
+                        style="@style/RoundButton"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="0.6"
+                        android:gravity="center"
+                        android:text="Decimal" />
 
 
+                    <TextView
+                        android:id="@+id/tvResult"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:fontFamily="@font/poppins_medium"
+                        android:paddingStart="8dp"
+                        android:text="Result: "
+                        android:textSize="24sp" />
+
+
+                </LinearLayout>
             </LinearLayout>
+
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- ViewPager2 Container for the Two Grids -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -146,14 +175,7 @@
                         android:text="⌫"
                         android:textSize="20sp" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnBaseRes"
-                        style="@style/RoundButton"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Bases" />
+
                 </LinearLayout>
 
             </LinearLayout>

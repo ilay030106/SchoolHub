@@ -17,22 +17,29 @@ public class GridPagerAdapter extends RecyclerView.Adapter<GridPagerAdapter.View
     // Holds the current base for the numbers grid.
     private String currentBase = "Decimal";
 
+    private ViewGroup ButtonsContainer;
+
+
+    public GridPagerAdapter(Context context, OnGridButtonClickListener listener) {
+        this.inflater = LayoutInflater.from(context);
+
+        this.listener = listener;
+    }
+
     @NonNull
     @Override
     public GridPagerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         int layoutId = (viewType == 0) ? R.layout.grid_numbers : R.layout.grid_operators;
         View view = inflater.inflate(layoutId, parent, false);
-        // For the numbers grid (viewType 0), set up click listeners.
-        HashMap<String, MaterialButton> numButtons = ButtonManager.getNumberButtons(view, parent.getContext());
-        ButtonManager.setupGridButtons(numButtons, listener);
-        HashMap<String, MaterialButton> operatorBtns  = ButtonManager.getOperatorButtons(view, parent.getContext());
-        ButtonManager.setupGridButtons(operatorBtns, listener);
+        // Only set up the relevant buttons for the current viewType
+        if (viewType == 0) {
+            HashMap<String, MaterialButton> numButtons = ButtonManager.getNumberButtons(view, parent.getContext());
+            ButtonManager.setupGridButtons(numButtons, listener);
+        } else {
+            HashMap<String, MaterialButton> operatorBtns = ButtonManager.getOperatorButtons(view, parent.getContext());
+            ButtonManager.setupGridButtons(operatorBtns, listener);
+        }
         return new ViewHolder(view);
-    }
-
-    public GridPagerAdapter(Context context, OnGridButtonClickListener listener) {
-        this.inflater = LayoutInflater.from(context);
-        this.listener = listener;
     }
 
     @Override

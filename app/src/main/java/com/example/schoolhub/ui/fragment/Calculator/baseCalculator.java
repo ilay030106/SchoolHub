@@ -14,12 +14,18 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.Objects;
+
+import lombok.Getter;
+
 public class baseCalculator extends Fragment implements BaseSelectionBottomSheet.BaseSelectionListener {
 
     protected String selectedBase1 = "Decimal", selectedBaseResult = "Decimal";
-    protected boolean isAdvMode = false;
+    private String lastResultBase = "Decimal";
+
     protected TextInputEditText eq;
     protected MaterialButton btnClear, btnConvert, btnBackSpace, btnBase1, btnBaseRes;
+    @Getter
     private TextView tvResult;
     private GridPagerAdapter gridPagerAdapter;
 
@@ -61,17 +67,6 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
         return eq;
     }
 
-    public TextView getTvResult() {
-        return tvResult;
-    }
-
-    public void setSelectedBaseRes(String base) {
-        this.selectedBaseResult = base;
-    }
-
-    public String getSelectedBase1() {
-        return selectedBase1;
-    }
 
     public void setSelectedBase1(String base) {
         this.selectedBase1 = base;
@@ -86,13 +81,53 @@ public class baseCalculator extends Fragment implements BaseSelectionBottomSheet
             case "input1":
                 selectedBase1 = base;
                 btnBase1.setText(base);
+                String exp = Objects.requireNonNull(eq.getText()).toString();
                 if (gridPagerAdapter != null) {
                     gridPagerAdapter.updateGrid(base);
+                }
+                if (!exp.isEmpty()) {
+                    // Validate all number tokens in the expression for the selected base
+                    boolean valid = true;
+                    String[] tokens = exp.split("[^0-9A-Fa-f]+", -1); // split by non-number chars
+                    for (String token : tokens) {
+                        if (token.isEmpty()) continue;
+                        switch (base) {
+                            case "Binary":
+                                if (!token.matches("[01]+")) valid = false;
+                                break;
+                            case "Hexa":
+                                if (!token.matches("[0-9A-Fa-f]+")) valid = false;
+                                break;
+                            default:
+                                if (!token.matches("[0-9]+")) valid = false;
+                                break;
+                        }
+                        if (!valid) break;
+                    }
+                    if (!valid) {
+                        eq.setText("");
+                    }
                 }
                 break;
             case "result":
                 selectedBaseResult = base;
                 btnBaseRes.setText(base);
+                String resText = Objects.requireNonNull(tvResult.getText()).toString();
+                if (!resText.isEmpty()) {
+                    String prefix = "Result: ";
+                    if (resText.startsWith(prefix)) {
+                        String numeric = resText.substring(prefix.length()).trim();
+                        // Convert from lastResultBase to decimal, then to new base
+                        int decimalValue = BaseConvertor.convertToDecimal(numeric, lastResultBase);
+                        String formatted = BaseConvertor.formatResult(decimalValue, base);
+                        tvResult.setText(prefix + formatted);
+                    } else {
+                        int decimalValue = BaseConvertor.convertToDecimal(resText.trim(), lastResultBase);
+                        String formatted = BaseConvertor.formatResult(decimalValue, base);
+                        tvResult.setText(prefix + formatted);
+                    }
+                }
+                lastResultBase = base;
                 break;
         }
     }
