@@ -19,4 +19,14 @@
     <string name="default_web_client_id">433599334811-14p1hrshlf1nrb7nk7l7h8p92r69n8gk.apps.googleusercontent.com</string>
     <string name="title_activity_login">LoginActivity</string>
 
+    <!-- Base Calculator Strings -->
+    <string name="hex_label">HEX</string>
+    <string name="dec_label">DEC</string>
+    <string name="bin_label">BIN</string>
+    <string name="zero">0</string>
+    <string name="enter_expression">Enter expression</string>
+    <string name="clear_button">C</string>
+    <string name="backspace_button">⌫</string>
+    <string name="equals_button">=</string>
+
 </resources>

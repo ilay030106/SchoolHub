@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Left colored strip (inactive indicator) -->
+    <item
+        android:width="4dp"
+        android:gravity="left">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/darkBlue" />
+        </shape>
+    </item>
+</layer-list>
+

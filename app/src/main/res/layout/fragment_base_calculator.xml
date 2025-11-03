@@ -3,15 +3,223 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp">
+    android:padding="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:orientation="vertical">
 
-        <!-- First Input Card (Value 1) -->
+        <!-- Combined Base Selector with Values -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- HEX Base Button with Value -->
+                <FrameLayout
+                    android:id="@+id/btnHexa"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/base_button_background"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <!-- Left Indicator Strip -->
+                    <View
+                        android:id="@+id/indicatorHexa"
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/darkBlue" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp">
+
+                        <TextView
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="@string/hex_label"
+                            android:textColor="@color/darkBlue"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tvHexValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/varela_round_regular"
+                            android:gravity="end"
+                            android:maxLines="1"
+                            android:text="@string/zero"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@color/lightGrey" />
+
+                <!-- DEC Base Button with Value -->
+                <FrameLayout
+                    android:id="@+id/btnDeci"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/base_button_background"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <!-- Left Indicator Strip -->
+                    <View
+                        android:id="@+id/indicatorDeci"
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/lightBlue" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp">
+
+                        <TextView
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="@string/dec_label"
+                            android:textColor="@color/darkBlue"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tvDecValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/varela_round_regular"
+                            android:gravity="end"
+                            android:maxLines="1"
+                            android:text="@string/zero"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@color/lightGrey" />
+
+                <!-- BIN Base Button with Value -->
+                <FrameLayout
+                    android:id="@+id/btnBin"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/base_button_background"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <!-- Left Indicator Strip -->
+                    <View
+                        android:id="@+id/indicatorBin"
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/darkBlue" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp">
+
+                        <TextView
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="@string/bin_label"
+                            android:textColor="@color/darkBlue"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tvBinValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/varela_round_regular"
+                            android:gravity="end"
+                            android:maxLines="1"
+                            android:text="@string/zero"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+                </FrameLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Input Expression Display -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/eq1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:cursorVisible="false"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:fontFamily="@font/varela_round_regular"
+                android:gravity="end|center_vertical"
+                android:hint="@string/enter_expression"
+                android:inputType="none"
+                android:minHeight="60dp"
+                android:padding="16dp"
+                android:textSize="20sp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Number and Operator Grid -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Control Buttons -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,163 +231,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="8dp"
-                android:weightSum="2.5">
+                android:padding="12dp">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnBase1"
+                    android:id="@+id/btnClear"
                     style="@style/RoundButton"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Decimal" />
+                    android:text="@string/clear_button" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/eq1"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBackSpace"
+                    style="@style/RoundButton"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
-                    android:cursorVisible="false"
-                    android:ems="10"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:fontFamily="@font/varela_round_regular"
-                    android:hint="הכנס מספר"
-                    android:inputType="none" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Second Input Card (Value 2) -->
-
-
-        <!-- Result and Advanced Mode Switch -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="6dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="10sp"
-                    android:fontFamily="@font/varela_round_regular"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="5dp"
-                    android:text="אנא בחר את הבסיס להצגת התוצאה"
-                    android:textSize="15sp" />
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="6dp"
-                    android:weightSum="2">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnBaseRes"
-                        style="@style/RoundButton"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="0.6"
-                        android:gravity="center"
-                        android:text="Decimal" />
-
-
-                    <TextView
-                        android:id="@+id/tvResult"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.5"
-                        android:fontFamily="@font/poppins_medium"
-                        android:paddingStart="8dp"
-                        android:text="Result: "
-                        android:textSize="24sp" />
-
-
-                </LinearLayout>
-            </LinearLayout>
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="6dp"
-            android:layout_marginTop="15dp">
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Bottom Row of Buttons -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="6dp"
-            android:layout_marginTop="15dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="12dp"
-                    android:visibility="visible">
+                    android:text="@string/backspace_button"
+                    android:textSize="20sp" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnClear"
-                        style="@style/RoundButton"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="C" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnConvert"
-                        style="@style/RoundButton"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="="
-                        android:textSize="20sp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnBackSpace"
-                        style="@style/RoundButton"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="⌫"
-                        android:textSize="20sp" />
-
-
-                </LinearLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnConvert"
+                    style="@style/RoundButton"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/equals_button"
+                    android:textSize="20sp" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 </FrameLayout>
+

@@ -17,9 +17,6 @@ public class GridPagerAdapter extends RecyclerView.Adapter<GridPagerAdapter.View
     // Holds the current base for the numbers grid.
     private String currentBase = "Decimal";
 
-    private ViewGroup ButtonsContainer;
-
-
     public GridPagerAdapter(Context context, OnGridButtonClickListener listener) {
         this.inflater = LayoutInflater.from(context);
 
@@ -33,10 +30,10 @@ public class GridPagerAdapter extends RecyclerView.Adapter<GridPagerAdapter.View
         View view = inflater.inflate(layoutId, parent, false);
         // Only set up the relevant buttons for the current viewType
         if (viewType == 0) {
-            HashMap<String, MaterialButton> numButtons = ButtonManager.getNumberButtons(view, parent.getContext());
+            HashMap<String, MaterialButton> numButtons = ButtonManager.getNumberButtons(view);
             ButtonManager.setupGridButtons(numButtons, listener);
         } else {
-            HashMap<String, MaterialButton> operatorBtns = ButtonManager.getOperatorButtons(view, parent.getContext());
+            HashMap<String, MaterialButton> operatorBtns = ButtonManager.getOperatorButtons(view);
             ButtonManager.setupGridButtons(operatorBtns, listener);
         }
         return new ViewHolder(view);
@@ -46,7 +43,7 @@ public class GridPagerAdapter extends RecyclerView.Adapter<GridPagerAdapter.View
     public void onBindViewHolder(@NonNull GridPagerAdapter.ViewHolder holder, int position) {
         // For the numbers grid, update the buttons based on currentBase.
         if (getItemViewType(position) == 0) {
-            HashMap<String, MaterialButton> gridButtons = ButtonManager.getNumberButtons(holder.itemView, holder.itemView.getContext());
+            HashMap<String, MaterialButton> gridButtons = ButtonManager.getNumberButtons(holder.itemView);
             ButtonManager.changeButtons(gridButtons, currentBase);
         }
         // The operators grid (position 1) remains unchanged.
@@ -72,7 +69,7 @@ public class GridPagerAdapter extends RecyclerView.Adapter<GridPagerAdapter.View
         void onGridButtonClicked(String buttonText);
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ViewHolder(@NonNull View itemView) {
             super(itemView);
         }

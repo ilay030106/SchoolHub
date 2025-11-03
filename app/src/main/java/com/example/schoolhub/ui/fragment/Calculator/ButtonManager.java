@@ -1,9 +1,10 @@
 package com.example.schoolhub.ui.fragment.Calculator;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.core.content.ContextCompat;
 
 import com.example.schoolhub.R;
 import com.google.android.material.button.MaterialButton;
@@ -16,7 +17,7 @@ import java.util.function.Predicate;
 public class ButtonManager {
 
     // Retrieves number buttons from the provided container view as a HashMap.
-    public static HashMap<String, MaterialButton> getNumberButtons(View view, Context context) {
+    public static HashMap<String, MaterialButton> getNumberButtons(View view) {
         HashMap<String, MaterialButton> numButtons = new HashMap<>();
         ViewGroup container = view.findViewById(R.id.gridNumbers);
         for (int i = 0; i < container.getChildCount(); i++) {
@@ -29,7 +30,7 @@ public class ButtonManager {
         return numButtons;
     }
 
-    public static HashMap<String, MaterialButton> getOperatorButtons(View view, Context context) {
+    public static HashMap<String, MaterialButton> getOperatorButtons(View view) {
         HashMap<String, MaterialButton> operatorButtons = new HashMap<>();
         ViewGroup container = view.findViewById(R.id.gridOperators);
         for (int i = 0; i < container.getChildCount(); i++) {
@@ -44,44 +45,38 @@ public class ButtonManager {
 
     // Sets up the click listeners for the non-grid buttons (clear, backspace, convert).
     @SuppressLint("SetTextI18n")
-    public static void setupButtons(baseCalculator fragment) {
+    public static void setupButtons(BaseCalculator fragment) {
         fragment.btnClear.setOnClickListener(v -> {
-            fragment.getSelectedEq().setText("");
-            fragment.getTvResult().setText("Result: ");
+            fragment.getEq().setText("");
+            fragment.updateMultiBaseDisplay();
         });
+
         fragment.btnBackSpace.setOnClickListener(v -> {
-            String text = Objects.requireNonNull(fragment.getSelectedEq().getText()).toString();
+            String text = Objects.requireNonNull(fragment.getEq().getText()).toString();
             if (!text.isEmpty()) {
-                fragment.getSelectedEq().setText(text.substring(0, text.length() - 1));
+                fragment.getEq().setText(text.substring(0, text.length() - 1));
+                fragment.updateMultiBaseDisplay();
             }
         });
+
         fragment.btnConvert.setOnClickListener(v -> {
+            String rawExpression = Objects.requireNonNull(fragment.getEq().getText()).toString();
 
-            String rawExpression = Objects.requireNonNull(fragment.getSelectedEq().getText()).toString();
-
-            int result;
-            try {
-                result = BaseConvertor.evaluateExpression(rawExpression);
-            } catch (Exception e) {
-                Snackbar.make(fragment.requireView(), "Invalid expression", Snackbar.LENGTH_SHORT).show();
+            if (rawExpression.isEmpty()) {
+                Snackbar.make(fragment.requireView(), "Please enter an expression", Snackbar.LENGTH_SHORT).show();
                 return;
             }
 
-            fragment.getTvResult().setText("Result: " + BaseConvertor.formatResult(result, fragment.selectedBaseResult));
+            try {
+                int result = BaseConvertor.evaluateExpression(rawExpression);
+                // Clear expression and show result
+                fragment.getEq().setText(BaseConvertor.formatResult(result, fragment.selectedBase));
+                fragment.updateMultiBaseDisplay();
+                Snackbar.make(fragment.requireView(), "Result calculated", Snackbar.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Snackbar.make(fragment.requireView(), "Invalid expression", Snackbar.LENGTH_SHORT).show();
+            }
         });
-    }
-
-
-    // Sets up the base selection dialogs.
-    public static void setUpBases(baseCalculator fragment) {
-        fragment.btnBase1.setOnClickListener(v -> showBaseDialog(fragment, "input1"));
-        fragment.btnBaseRes.setOnClickListener(v -> showBaseDialog(fragment, "result"));
-    }
-
-    private static void showBaseDialog(baseCalculator fragment, String target) {
-        BaseSelectionBottomSheet dialog = BaseSelectionBottomSheet.newInstance(target);
-        dialog.setListener(fragment);
-        dialog.show(fragment.getParentFragmentManager(), "BaseSelectionBottomSheet");
     }
 
     // Updates the enabled state of buttons based on the selected base.
@@ -103,8 +98,8 @@ public class ButtonManager {
                 boolean enabled = predicate.test(button);
                 button.setEnabled(enabled);
                 button.setBackgroundTintList(enabled ?
-                        button.getContext().getResources().getColorStateList(R.color.lightBlue) :
-                        button.getContext().getResources().getColorStateList(R.color.darkBlue));
+                        ContextCompat.getColorStateList(button.getContext(), R.color.lightBlue) :
+                        ContextCompat.getColorStateList(button.getContext(), R.color.darkBlue));
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.example.schoolhub;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.schoolhub.ui.fragment.Calculator.baseCalculator;
+import com.example.schoolhub.ui.fragment.Calculator.BaseCalculator;
 import com.example.schoolhub.ui.fragment.TimeTable.TimeTableFragment;
 import com.example.schoolhub.ui.fragment.Home.homeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (itemId == R.id.navigation_timetable) {
                 fragment = new TimeTableFragment();
             } else if (itemId == R.id.navigation_calculator) {
-                fragment = new baseCalculator();
+                fragment = new BaseCalculator();
             }
 
 
